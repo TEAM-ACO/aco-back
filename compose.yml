@@ -1,0 +1,27 @@
+version: '3'
+services:
+  redis:
+    image: redis:latest
+    command: redis-server --port 12621
+    container_name: aco_redis
+    hostname: redis_service
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 15051:15051
+
+  mysql:
+    image: mysql:latest
+    container_name: aco_mysql
+    ports:
+      - 15151:15151
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_TCP_PORT: 15151
+      MYSQL_USER: 자신의컴퓨터에서쓸아이디
+      MYSQL_PASSWORD: 비밀번호
+      TZ: Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
