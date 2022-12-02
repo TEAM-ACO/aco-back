@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "dev.aco.secretkey",
+    "type": "java.lang.String",
+    "description": "JWT Secretkey"
+  },
+  {
+    "name": "dev.aco.redishost",
+    "type": "java.lang.String",
+    "description": "Redis HOST ADRESS"
+  },
+  {
+    "name": "dev.aco.redisport",
+    "type": "java.lang.Long",
+    "description": "Redis HOST PORT"
+  }
+]}
