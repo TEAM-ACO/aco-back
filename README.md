@@ -1,4 +1,9 @@
-### 백엔드
-- compose파일 확인 중
-- Entity/DTO 일요일까지 완성 예정
-- application.properties 파일은 디스코드에서 말씀주세용
+## 백엔드
+
+### 12/2
+- 스프링부트 템플릿 초기화
+- compose.yml 실험
+- pom.xml 정리
+### 12/3 
+- Entity 작성 끝
+- compose.yml 작성 끝 

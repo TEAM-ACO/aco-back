@@ -2,7 +2,7 @@ version: '3'
 services:
   redis:
     image: redis:latest
-    command: redis-server --port 12621
+    command: redis-server --port 15051
     container_name: aco_redis
     hostname: redis_service
     labels:
@@ -19,9 +19,5 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_TCP_PORT: 15151
-      MYSQL_USER: 자신의컴퓨터에서쓸아이디
-      MYSQL_PASSWORD: 비밀번호
       TZ: Asia/Seoul
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
+    command: ["mysqld", "--default-authentication-plugin=mysql_native_password", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
