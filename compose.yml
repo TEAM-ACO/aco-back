@@ -17,7 +17,7 @@ services:
     ports:
       - 15151:15151
     environment:
-      MYSQL_ROOT_PASSWORD: admin혹은 자신의 컴퓨터에서 쓸 비밀번호
+      MYSQL_ROOT_PASSWORD: admin
       MYSQL_TCP_PORT: 15151
       TZ: Asia/Seoul
     command: ["mysqld", "--default-authentication-plugin=mysql_native_password", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]

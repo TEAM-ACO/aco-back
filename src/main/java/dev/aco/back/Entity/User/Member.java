@@ -2,6 +2,7 @@ package dev.aco.back.Entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import dev.aco.back.Entity.Article.Article;
@@ -29,29 +30,30 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member extends DateEntity{
+public class Member extends DateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
-    
-    @Column
+
+    @Column(unique = true)
     private String email;
-    
+
     @Column
     private String password;
-    
+
     @Column
     private String nickname;
 
     @Column
     private String name;
-    
-    @Column
+
+    @Column(unique = true)
     private String mobile;
-    
+
     @Column
-    @ElementCollection
-    private Set<Roles> roles;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<Roles> roleSet = new HashSet<>();
 
     @Column
     private String oauth;
@@ -59,7 +61,7 @@ public class Member extends DateEntity{
     @Column
     private Boolean logged;
 
-    @Column 
+    @Column
     private String userimg;
 
     @Builder.Default
@@ -85,9 +87,5 @@ public class Member extends DateEntity{
     @Builder.Default
     @OneToMany(mappedBy = "recommender", fetch = FetchType.LAZY, orphanRemoval = false)
     private List<Recommend> recommends = new ArrayList<>();
-    
 
-    
-
-    
 }
