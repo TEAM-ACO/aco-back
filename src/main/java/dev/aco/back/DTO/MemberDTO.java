@@ -3,7 +3,6 @@ package dev.aco.back.DTO;
 import java.util.Set;
 import java.util.HashSet;
 
-import dev.aco.back.Entity.Enum.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

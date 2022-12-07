@@ -13,5 +13,10 @@
     "name": "dev.aco.redisport",
     "type": "java.lang.Long",
     "description": "Redis HOST PORT"
+  },
+  {
+    "name": "dev.aco.filepath",
+    "type": "java.lang.String",
+    "description": "Filepath for image/file"
   }
 ]}
