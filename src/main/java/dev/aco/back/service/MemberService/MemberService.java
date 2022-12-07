@@ -3,7 +3,7 @@ package dev.aco.back.service.MemberService;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import dev.aco.back.DTO.MemberDTO;
+import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.Entity.Enum.Roles;
 import dev.aco.back.Entity.User.Member;
 
