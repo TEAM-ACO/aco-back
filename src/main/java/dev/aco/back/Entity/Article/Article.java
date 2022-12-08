@@ -34,9 +34,6 @@ public class Article extends DateEntity{
     private Long articleId;
 
     @Column
-    private String articleTitle;
-
-    @Column
     private byte[] articleContext;
 
     @Column

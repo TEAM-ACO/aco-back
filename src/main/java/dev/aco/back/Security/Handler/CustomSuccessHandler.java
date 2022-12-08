@@ -39,6 +39,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addHeader("SetCookie", cookie1.toString());
         response.addHeader("SetCookie", cookie2.toString());
         
+        
+                //127.0.0.1:8080은 나중에 프론트 서버 주소로 변경해줍니다
 
         if(member.getNickname().length()==0 || member.getPassword().length()==0){
             Cookie noneinituser = new Cookie("user", "{%22id%22:%22"+member.getEmail()+"%22%2C%22num%22:"+member.getMemberId().toString()
@@ -52,7 +54,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             user.setPath("/");
             response.sendRedirect("http://127.0.0.1:8080/");
         }
-
         super.onAuthenticationSuccess(request, response, authentication);
     }
 
