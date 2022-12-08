@@ -17,8 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ArticleDTO {
     private Long articleId;
-    private String articleTitle;
-    private byte[] articleContext;
+    private String articleContext;
     private String menu;
     private MemberDTO member;
     private List<ArticleHashtag> hashLinker;

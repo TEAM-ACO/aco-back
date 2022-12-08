@@ -48,7 +48,7 @@ public class JWTManager {
                 .setSubject("bblog token")
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-        return "Bearer " + jwt;
+        return jwt;
     }
 
     public Boolean tokenValidator(String token) {
