@@ -52,7 +52,7 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
                         .password(attributes.getEmail()+attributes.getName())
                         .userimg(attributes.getPicture())
                         .oauth(registrationId)
-                        .roles(oauthRoles)
+                        .roleSet(oauthRoles)
                         .build()));
                         
                         
@@ -62,6 +62,6 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
             member.getPassword(), 
             member.getNickname(), 
             member.getOauth(), 
-            member.getRoles().stream().map(v-> new SimpleGrantedAuthority(v.toString())).collect(Collectors.toSet()));
+            member.getRoleSet().stream().map(v-> new SimpleGrantedAuthority(v.toString())).collect(Collectors.toSet()));
     }
 }

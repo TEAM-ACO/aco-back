@@ -25,6 +25,6 @@ public class CustomLoginService implements UserDetailsService {
             member.getEmail(), 
             member.getPassword(), 
             member.getNickname(), 
-            member.getRoles().stream().map(v-> new SimpleGrantedAuthority(v.toString())).collect(Collectors.toSet()));
+            member.getRoleSet().stream().map(v-> new SimpleGrantedAuthority(v.toString())).collect(Collectors.toSet()));
     }
 }
