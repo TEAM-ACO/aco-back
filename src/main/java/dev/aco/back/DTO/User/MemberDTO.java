@@ -1,7 +1,6 @@
-package dev.aco.back.DTO;
+package dev.aco.back.DTO.User;
 
 import java.util.Set;
-import java.util.HashSet;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,10 +18,7 @@ public class MemberDTO {
   private String nickname;
   private String name;
   private String mobile;
-
-  @Builder.Default
-  private Set<String> roleSet = new HashSet<>();
-
+  private Set<String> roleSet;
   private String oauth;
   private Boolean logged;
   private String userimg;

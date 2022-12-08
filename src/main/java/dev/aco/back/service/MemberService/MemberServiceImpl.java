@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import dev.aco.back.DTO.MemberDTO;
+import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.Entity.User.emailAuth;
 import dev.aco.back.Repository.MailRepository;
 import dev.aco.back.Repository.MemberRepository;
