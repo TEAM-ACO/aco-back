@@ -76,10 +76,6 @@ public class RedisManager {
         valueOperations.set(key, value);
     }
 
-    // Redis에 저장하려고하다보니 유효기간 저장하는부분에서 문제가 생겼습니다.
-    // 검색해보면서 이런식으로 저장을 하는걸 보고 제가 이해하는 선에서 적어봤습니다.
-    // 이것이 문제가 될지 잘 모르겠습니다. 만약 이것을 사용한다면 기존 MailService에서 작성한
-    // 유효기간 관련된 코드는 사용할 필요가 없을것 같음.
     public void setDataExpire(String key, String value, long expiration) {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         // expireDuaration 동안 (key, value)를 저장한다.

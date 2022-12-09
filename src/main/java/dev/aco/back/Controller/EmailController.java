@@ -20,6 +20,7 @@ import lombok.extern.log4j.Log4j2;
 public class EmailController {
   private final MailService mailService;
 
+  // 요거 이름도 어디선 request에 어디선 send에 좀 통일이 필요한거같은데 뭐가 좋을까요?
   @RequestMapping(value = "emailauth", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Boolean> emailRequest(@RequestBody emailAuthDTO dto) {
     log.info(dto);
