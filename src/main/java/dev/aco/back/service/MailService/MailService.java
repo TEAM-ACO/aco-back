@@ -1,9 +1,9 @@
 package dev.aco.back.service.MailService;
 
 public interface MailService {
-  boolean mailCheckingRequest(String email);
+  boolean sendEmail(String email);
 
-  String mailCheckingNumCheckRequest(String email, Integer authNum);
+  // String mailCheckingNumCheckRequest(String email, Integer authNum);
 
   boolean verifyEmail(String key);
 }
