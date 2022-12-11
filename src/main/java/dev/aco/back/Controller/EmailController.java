@@ -15,7 +15,7 @@ import lombok.extern.log4j.Log4j2;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/member")
+@RequestMapping(value = "/member")
 @Log4j2
 public class EmailController {
   private final MailService mailService;
