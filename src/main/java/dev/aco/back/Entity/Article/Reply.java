@@ -1,5 +1,6 @@
 package dev.aco.back.Entity.Article;
 
+import dev.aco.back.Entity.User.Member;
 import dev.aco.back.Entity.etc.DateEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,4 +37,7 @@ public class Reply extends DateEntity{
 
     @ManyToOne
     private Article article;
+
+    @ManyToOne
+    private Member member;
 }
