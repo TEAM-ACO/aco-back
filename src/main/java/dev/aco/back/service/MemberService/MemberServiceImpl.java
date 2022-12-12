@@ -27,9 +27,9 @@ public class MemberServiceImpl implements MemberService {
     if (resultCheck.get().getEmail().length() > 0 && resultCheck.get().getIsAuthrized() == true) {
       repo.save(dtoToEntity(dto));
       mrepo.delete(resultCheck.get());
-      return "Welcome! you have signed up successfully.";
+      return "회원가입에 성공하였습니다.";
     } else {
-      return "Something went wrong..";
+      return "회원가입에 실패하였습니다.";
     }
   }
 }
