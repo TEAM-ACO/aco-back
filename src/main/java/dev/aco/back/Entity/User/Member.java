@@ -7,6 +7,7 @@ import java.util.Set;
 
 import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.Recommend;
+import dev.aco.back.Entity.Article.Reply;
 import dev.aco.back.Entity.Enum.Roles;
 import dev.aco.back.Entity.Linker.MemberAchievement;
 import dev.aco.back.Entity.Report.ArticleReport;
@@ -67,6 +68,10 @@ public class Member extends DateEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = false)
     private List<Article> articles = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = false)
+    private List<Reply> reply = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "articlereporter", fetch = FetchType.LAZY, orphanRemoval = true)
