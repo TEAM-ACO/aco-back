@@ -2,6 +2,7 @@ package dev.aco.back.service.ArticleService;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.aco.back.DTO.Article.ArticleDTO;
@@ -16,8 +17,8 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository arepo;
 
     @Override
-    public List<ArticleDTO> readList() {
-        return arepo.findAll().stream().map(v -> {
+    public List<ArticleDTO> readList(Pageable pageable) {
+        return arepo.findAll(pageable).stream().map(v -> {
             return ArticleDTO
                     .builder()
                     .articleId(v.getArticleId())
