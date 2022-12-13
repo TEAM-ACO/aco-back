@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.Entity.User.Member;
 import dev.aco.back.Repository.MemberRepository;
-import dev.aco.back.VO.SetNicknameVO;
+import dev.aco.back.VO.ChangeNicknameVO;
 // import dev.aco.back.VO.MemberVO;
 // import dev.aco.back.VO.SetNicknameVO;
-import dev.aco.back.VO.SetPasswordVO;
+import dev.aco.back.VO.ChangePasswordVO;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,7 +29,7 @@ public class MemberSettingServiceImpl implements MemberSettingService {
   }
 
   @Override
-  public Boolean changePassword(SetPasswordVO vo) {
+  public Boolean changePassword(ChangePasswordVO vo) {
     Optional<Member> result = mrepo.findByMemberId(vo.getMemberId());
     if (encoder.matches(vo.getCpassword(), result.get().getPassword())) {
       mrepo.changePassbyMemberId(vo.getMemberId(), encoder.encode(vo.getUpassword()));
@@ -39,7 +39,7 @@ public class MemberSettingServiceImpl implements MemberSettingService {
   }
 
   @Override
-  public Boolean changeNickname(SetNicknameVO vo) {
+  public Boolean changeNickname(ChangeNicknameVO vo) {
     mrepo.changeNicknamebyMemberId(vo.getMemberId(), vo.getNickname());
     return true;
   }

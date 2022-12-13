@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.VO.MemberVO;
-import dev.aco.back.VO.SetNicknameVO;
-import dev.aco.back.VO.SetPasswordVO;
+import dev.aco.back.VO.ChangeNicknameVO;
+import dev.aco.back.VO.ChangePasswordVO;
 import dev.aco.back.service.MemberService.MemberSettingService;
 
 import org.springframework.http.HttpStatus;
@@ -30,13 +30,13 @@ public class MemberSettingController {
   }
 
   @RequestMapping(value = "/changepassword", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Boolean> changePassword(@RequestBody SetPasswordVO vo) {
+  public ResponseEntity<Boolean> changePassword(@RequestBody ChangePasswordVO vo) {
     log.info(vo);
     return new ResponseEntity<>(service.changePassword(vo), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/changenickname", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Boolean> changeNickname(@RequestBody SetNicknameVO vo) {
+  public ResponseEntity<Boolean> changeNickname(@RequestBody ChangeNicknameVO vo) {
     log.info(vo);
     return new ResponseEntity<>(service.changeNickname(vo), HttpStatus.OK);
   }

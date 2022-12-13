@@ -3,7 +3,7 @@ package dev.aco.back.VO;
 import lombok.Data;
 
 @Data
-public class SetNicknameVO {
+public class ChangeNicknameVO {
   Long memberId;
   String nickname;
 }
