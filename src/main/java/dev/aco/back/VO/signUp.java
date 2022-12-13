@@ -12,5 +12,4 @@ public class signUp {
   private String name;
   private String mobile;
   private String oauth;
-
 }

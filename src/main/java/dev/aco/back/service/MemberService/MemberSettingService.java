@@ -1,33 +1,30 @@
 package dev.aco.back.service.MemberService;
 
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import dev.aco.back.DTO.User.MemberDTO;
-import dev.aco.back.Entity.Enum.Roles;
 import dev.aco.back.Entity.User.Member;
+import dev.aco.back.VO.SetNicknameVO;
+// import dev.aco.back.VO.SetNicknameVO;
+import dev.aco.back.VO.SetPasswordVO;
 
-public interface MemberService {
-  Boolean signUp(MemberDTO dto);
-  // Long findPassword(findPassword vo);
-  // String changePassword(changePassword vo);
+public interface MemberSettingService {
+  MemberDTO getByMemberId(Long memberId);
+
+  Boolean changePassword(SetPasswordVO vo);
+
+  Boolean changeNickname(SetNicknameVO vo);
+
+  // void uploadProfileImg(Long memberId, String fileName);
 
   default MemberDTO entityToDTO(Member entity) {
     MemberDTO dto = MemberDTO.builder()
-        .email(entity.getEmail())
+        .email(entity.getPassword())
         .password(entity.getPassword())
         .nickname(entity.getNickname())
         .name(entity.getName())
         .mobile(entity.getMobile())
-        .roleSet(entity.getRoleSet().stream().map(new Function<Roles, String>() {
-          @Override
-          public String apply(Roles r) {
-            return new String("ROLE_" + r.name());
-          }
-        }).collect(Collectors.toSet()))
-        .oauth(entity.getOauth())
-        .logged(entity.getLogged())
         .userimg(entity.getUserimg())
+        // articles, reply, articlereporter, memberreporter, reported, achieveLinker,
+        // recommends
         .build();
     return dto;
   }
@@ -39,9 +36,9 @@ public interface MemberService {
         .nickname(dto.getNickname())
         .name(dto.getName())
         .mobile(dto.getMobile())
-        .oauth(dto.getOauth())
-        .logged(dto.getLogged())
         .userimg(dto.getUserimg())
+        // articles, reply, articlereporter, memberreporter, reported, achieveLinker,
+        // recommends
         .build();
     return entity;
   }
