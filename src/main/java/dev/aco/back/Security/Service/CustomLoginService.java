@@ -13,9 +13,11 @@ import dev.aco.back.Repository.MemberRepository;
 import dev.aco.back.Security.DTO.SecurityMemberDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class CustomLoginService implements UserDetailsService {
 
     private final MemberRepository mrepo;
@@ -24,6 +26,7 @@ public class CustomLoginService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = mrepo.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        log.info(member.getEmail());
         return new SecurityMemberDTO(
             member.getMemberId(), 
             member.getEmail(), 
