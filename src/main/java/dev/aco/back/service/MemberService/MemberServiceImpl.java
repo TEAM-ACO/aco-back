@@ -21,15 +21,14 @@ public class MemberServiceImpl implements MemberService {
 
   @Transactional
   @Override
-  public String signUp(MemberDTO dto) {
+  public Boolean signUp(MemberDTO dto) {
     dto.setPassword(encoder.encode(dto.getPassword()));
     Optional<emailAuth> resultCheck = mrepo.getByEmail(dto.getEmail());
     if (resultCheck.get().getEmail().length() > 0 && resultCheck.get().getIsAuthrized() == true) {
       repo.save(dtoToEntity(dto));
       mrepo.delete(resultCheck.get());
-      return "회원가입에 성공하였습니다.";
-    } else {
-      return "회원가입에 실패하였습니다.";
+      return true;
     }
+    return false;
   }
 }

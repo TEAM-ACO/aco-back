@@ -45,11 +45,16 @@ public class MailServiceImpl implements MailService {
     if (email != null) {
       // redis에 EmailData가 있으면 삭제와 인증완료
       redisManager.deleteEmailData(key);
-      mrepo.save(emailAuth.builder().email(email).isAuthrized(true).build());
       return true;
     } else {
       // redis에 EmailData가 없으면 = 인증실패
       return false;
     }
+  }
+
+  @Override
+  public boolean saveEmailAuth(String email) {
+    mrepo.save(emailAuth.builder().email(email).isAuthrized(true).build());
+    return true;
   }
 }
