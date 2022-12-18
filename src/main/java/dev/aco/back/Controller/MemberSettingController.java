@@ -7,6 +7,7 @@ import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.VO.MemberVO;
 import dev.aco.back.VO.ChangeNicknameVO;
 import dev.aco.back.VO.ChangePasswordVO;
+import dev.aco.back.VO.ChangeUserImgVO;
 import dev.aco.back.service.MemberService.MemberSettingService;
 
 import org.springframework.http.HttpStatus;
@@ -40,4 +41,11 @@ public class MemberSettingController {
     log.info(vo);
     return new ResponseEntity<>(service.changeNickname(vo), HttpStatus.OK);
   }
+
+  @RequestMapping(value = "/changeuserimg", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Boolean> changeUserImg(@RequestBody ChangeUserImgVO vo) {
+    log.info(vo);
+    return new ResponseEntity<>(service.changeUserImg(vo), HttpStatus.OK);
+  }
+
 }

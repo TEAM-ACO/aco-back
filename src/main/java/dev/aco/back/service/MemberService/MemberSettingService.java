@@ -5,15 +5,17 @@ import dev.aco.back.Entity.User.Member;
 import dev.aco.back.VO.ChangeNicknameVO;
 // import dev.aco.back.VO.SetNicknameVO;
 import dev.aco.back.VO.ChangePasswordVO;
+import dev.aco.back.VO.ChangeUserImgVO;
 
 public interface MemberSettingService {
+  // 여기에 추가로 들어가야할것 내가 단 댓글갯수, 작성한 게시글 카운팅과 내프로필 이미지
   MemberDTO getByMemberId(Long memberId);
 
   Boolean changePassword(ChangePasswordVO vo);
 
   Boolean changeNickname(ChangeNicknameVO vo);
 
-  // void uploadProfileImg(Long memberId, String fileName);
+  Boolean changeUserImg(ChangeUserImgVO vo);
 
   default MemberDTO entityToDTO(Member entity) {
     MemberDTO dto = MemberDTO.builder()
