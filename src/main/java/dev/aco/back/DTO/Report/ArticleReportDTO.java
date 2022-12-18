@@ -13,5 +13,6 @@ public class ArticleReportDTO {
     private Long articleReportId;
     private String articleReportTitle;
     private String articleReportContext;
-    private String articlereporter;
+    private Long articlereporterId;
+    private Long articleId;
 }
