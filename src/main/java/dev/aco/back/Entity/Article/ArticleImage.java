@@ -24,6 +24,10 @@ public class ArticleImage {
     @Column(nullable = false)
     private String img;
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
+    private int idx;
+
     @ManyToOne
     private Article article;
 
