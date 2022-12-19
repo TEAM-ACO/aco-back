@@ -30,6 +30,7 @@ public class MemberServiceImpl implements MemberService {
   @Transactional
   @Override
   public Boolean signUp(MemberDTO dto) {
+
     Set<String> userole = new HashSet<>();
     userole.add(Roles.User.toString());
     dto.setPassword(encoder.encode(dto.getPassword()));
@@ -46,5 +47,6 @@ public class MemberServiceImpl implements MemberService {
     } else {
       return false;
     }
+    return false;
   }
 }
