@@ -8,6 +8,5 @@ import lombok.Data;
 public class ChangeUserImgVO {
   Long memberId;
   String userimg;
-  String defaultimg;
   MultipartRequest file;
 }
