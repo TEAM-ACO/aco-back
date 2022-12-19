@@ -27,5 +27,4 @@ public class ArticleImage {
     @ManyToOne
     private Article article;
 
-
 }

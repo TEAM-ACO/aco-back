@@ -8,4 +8,5 @@ import dev.aco.back.DTO.Article.ArticleDTO;
 
 public interface ArticleService {
     List<ArticleDTO> readList(Pageable request);
+
 }
