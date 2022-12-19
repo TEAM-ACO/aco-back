@@ -29,6 +29,6 @@ public class EmailController {
   @RequestMapping(value = "/emailverify", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Boolean> verifyEmail(@RequestBody emailAuthDTO dto) {
     log.info(dto);
-    return new ResponseEntity<Boolean>(mailService.verifyEmail(dto.getEmail()), HttpStatus.OK);
+    return new ResponseEntity<Boolean>(mailService.verifyEmail(dto), HttpStatus.OK);
   }
 }

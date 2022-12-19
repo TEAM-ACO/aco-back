@@ -8,7 +8,8 @@ import dev.aco.back.Entity.Enum.Roles;
 import dev.aco.back.Entity.User.Member;
 
 public interface MemberService {
-  String signUp(MemberDTO dto);
+  Boolean signUp(MemberDTO dto);
+  Boolean emailChecking(MemberDTO dto);
   // Long findPassword(findPassword vo);
   // String changePassword(changePassword vo);
 

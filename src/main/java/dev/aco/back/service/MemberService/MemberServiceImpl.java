@@ -1,11 +1,14 @@
 package dev.aco.back.service.MemberService;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dev.aco.back.DTO.User.MemberDTO;
+import dev.aco.back.Entity.Enum.Roles;
 import dev.aco.back.Entity.User.emailAuth;
 import dev.aco.back.Repository.MailRepository;
 import dev.aco.back.Repository.MemberRepository;
@@ -19,17 +22,29 @@ public class MemberServiceImpl implements MemberService {
   private final PasswordEncoder encoder;
   private final MailRepository mrepo;
 
+  @Override
+  public Boolean emailChecking(MemberDTO dto) {
+      return repo.existsByEmail(dto.getEmail());
+  }
+
   @Transactional
   @Override
-  public String signUp(MemberDTO dto) {
+  public Boolean signUp(MemberDTO dto) {
+    Set<String> userole = new HashSet<>();
+    userole.add(Roles.User.toString());
     dto.setPassword(encoder.encode(dto.getPassword()));
     Optional<emailAuth> resultCheck = mrepo.getByEmail(dto.getEmail());
     if (resultCheck.get().getEmail().length() > 0 && resultCheck.get().getIsAuthrized() == true) {
+      dto.setPassword(encoder.encode(dto.getPassword()));
+      dto.setOauth("site");
+      dto.setRoleSet(userole);
+      dto.setLogged(false);
+      dto.setUserimg("basic.png");      
       repo.save(dtoToEntity(dto));
       mrepo.delete(resultCheck.get());
-      return "회원가입에 성공하였습니다.";
+      return true;
     } else {
-      return "회원가입에 실패하였습니다.";
+      return false;
     }
   }
 }
