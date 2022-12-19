@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService {
 
   @Override
   public Boolean emailChecking(MemberDTO dto) {
-      return repo.existsByEmail(dto.getEmail());
+    return repo.existsByEmail(dto.getEmail());
   }
 
   @Transactional
@@ -40,13 +40,12 @@ public class MemberServiceImpl implements MemberService {
       dto.setOauth("site");
       dto.setRoleSet(userole);
       dto.setLogged(false);
-      dto.setUserimg("basic.png");      
+      dto.setUserimg("basic.png");
       repo.save(dtoToEntity(dto));
       mrepo.delete(resultCheck.get());
       return true;
     } else {
       return false;
     }
-    return false;
   }
 }

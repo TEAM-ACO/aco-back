@@ -53,11 +53,6 @@ public class MailServiceImpl implements MailService {
     if (redisManager.getEmailData(dto.getEmail()).equals(dto.getAuthNum().toString())) {
       redisManager.deleteEmailData(dto.getEmail());
       mrepo.userAuthorized(dto.getEmail(), true);
-  public boolean verifyEmail(String key) {
-    String email = redisManager.getEmailData(key);
-    if (email != null) {
-      // redis에 EmailData가 있으면 삭제와 인증완료
-      redisManager.deleteEmailData(key);
       return true;
     } else {
       return false;
