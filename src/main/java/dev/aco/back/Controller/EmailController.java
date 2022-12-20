@@ -29,7 +29,7 @@ public class EmailController {
   @RequestMapping(value = "/emailverify", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Boolean> verifyEmail(@RequestBody emailAuthDTO dto) {
     log.info(dto);
-    Boolean result = mailService.verifyEmail(dto.getEmail());
+    Boolean result = mailService.verifyEmail(dto);
     if (result == true) {
       // 찌꺼기를 남기지 않기 위해서
       mailService.saveEmailAuth(dto.getEmail());

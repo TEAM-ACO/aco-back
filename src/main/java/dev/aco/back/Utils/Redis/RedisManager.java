@@ -79,7 +79,7 @@ public class RedisManager {
     public void setDataExpire(String key, String value, long expiration) {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         // expireDuaration 동안 (key, value)를 저장한다.
-        Duration expireDuration = Duration.ofMillis(expiration);
+        Duration expireDuration = Duration.ofSeconds(expiration);
         valueOperations.set(key, value, expireDuration);
     }
 

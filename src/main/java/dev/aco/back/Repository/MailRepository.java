@@ -15,4 +15,9 @@ public interface MailRepository extends JpaRepository<emailAuth, Long> {
   @Modifying
   @Query("update emailAuth as e set e.createdDateTime=:updated, e.isAuthrized=true where e.eauthId=:eauthid")
   void updateAuthTime(Long eauthid, LocalDateTime updated);
+
+  @Modifying
+  @Query("update emailAuth as e set e.isAuthrized=:bool where e.email=:email")
+  void userAuthorized(String email, Boolean bool);
+
 }

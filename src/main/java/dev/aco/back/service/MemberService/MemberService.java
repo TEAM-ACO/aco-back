@@ -9,6 +9,8 @@ import dev.aco.back.Entity.User.Member;
 
 public interface MemberService {
   Boolean signUp(MemberDTO dto);
+  Boolean emailChecking(MemberDTO dto);
+
   // Long findPassword(findPassword vo);
   // String changePassword(changePassword vo);
 
