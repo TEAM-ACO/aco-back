@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     public CustomLoginFilter() {
-        super(new AntPathRequestMatcher("/login"));
+        super(new AntPathRequestMatcher("/member/login"));
     }
 
     @Override

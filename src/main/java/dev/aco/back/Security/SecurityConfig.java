@@ -106,7 +106,7 @@ public class SecurityConfig {
 
 
     @Bean
-    public CustomLoginFilter customLoginFilter(AuthenticationManager authenticationManager) {
+    CustomLoginFilter customLoginFilter(AuthenticationManager authenticationManager) {
         CustomLoginFilter filter = new CustomLoginFilter();
         filter.setAuthenticationManager(authenticationManager);
         filter.setAuthenticationSuccessHandler(customSuccessHandler);
@@ -114,7 +114,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

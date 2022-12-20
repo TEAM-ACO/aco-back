@@ -43,9 +43,9 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 
         // OAuth2 로그인을 통해 가져온 OAuth2User의 attribute를 담아주는 of 메소드.
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,userinfo.getAttributes());
-        mrepo.findByEmail(userinfo.getAttribute("email")).ifPresentOrElse(
+        mrepo.findByEmail(attributes.getEmail()).ifPresentOrElse(
                 v -> member = v,
-                () -> mrepo.save(Member.builder()
+                () -> member = mrepo.save(Member.builder()
                         .email(attributes.getEmail())
                         .name(attributes.getName())
                         .nickname("")
@@ -62,6 +62,6 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
             member.getPassword(), 
             member.getNickname(), 
             member.getOauth(), 
-            member.getRoleSet().stream().map(v-> new SimpleGrantedAuthority(v.toString())).collect(Collectors.toSet()));
+            oauthRoles.stream().map(v-> new SimpleGrantedAuthority(v.toString())).collect(Collectors.toSet()));
     }
 }
