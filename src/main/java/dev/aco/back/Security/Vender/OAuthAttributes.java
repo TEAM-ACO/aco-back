@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 @Getter
 @Setter
 @SuppressWarnings("unchecked")
 @NoArgsConstructor
 @AllArgsConstructor
+@Log4j2
 public class OAuthAttributes {
         private Map<String, Object> attributes;
         private String nameAttributeKey;
@@ -33,7 +35,9 @@ public class OAuthAttributes {
         private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
             Map<String, Object> kakao_account = (Map<String, Object>) attributes.get("kakao_account");  // 카카오로 받은 데이터에서 계정 정보가 담긴 kakao_account 값을 꺼낸다.
             Map<String, Object> profile = (Map<String, Object>) kakao_account.get("profile");   // 마찬가지로 profile(nickname, image_url.. 등) 정보가 담긴 값을 꺼낸다.
-    
+            
+            log.info(profile.get("nickname"));
+            log.info(profile.get("profile_image_url"));
             return new OAuthAttributes(attributes,
                     userNameAttributeName,
                     (String) profile.get("nickname"),
