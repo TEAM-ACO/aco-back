@@ -10,7 +10,7 @@ import dev.aco.back.Entity.Enum.Menu;
 import dev.aco.back.Entity.User.Member;
 
 public interface ArticleService {
-    List<ArticleDTO> readList(Pageable request);
+    // List<ArticleDTO> readList(Pageable request);
 
     Long write(ArticleDTO dto);
 

@@ -1,6 +1,6 @@
 package dev.aco.back;
 
-
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +9,8 @@ import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import dev.aco.back.Entity.Article.Article;
@@ -31,8 +33,12 @@ import dev.aco.back.Repository.RecommendRepository;
 import dev.aco.back.Repository.ReplyRepository;
 import dev.aco.back.Repository.VisitorRepository;
 import dev.aco.back.Repository.Linker.HashArticleLInker;
+import dev.aco.back.VO.pageVO;
+import dev.aco.back.service.ArticleService.ArticleService;
+import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
+@Log4j2
 class BackApplicationTests {
 
 	@Autowired
@@ -54,9 +60,11 @@ class BackApplicationTests {
 	@Autowired
 	private ArticleImageRepository airepo;
 
-
 	@Autowired
 	private PasswordEncoder pEncoder;
+
+	@Autowired
+	private ArticleService aser;
 
 	@Test
 	void articleGenerator() {
@@ -104,9 +112,15 @@ class BackApplicationTests {
 	}
 
 	@Test
-	void articleList(){
-		
-		
+	void testList() {
+		List<Object> listA = new ArrayList<Object>();
+		listA.add("1");
+		listA.add("2");
+		listA.add("3");
+		pageVO vo = pageVO.builder().requestedPageNumber(1).requestedPageSize(1)
+				.responsedPageNumber(1).totalPageSize(1).list(listA).build();
+		Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize());
+		log.info(aser.readList(pageable));
 	}
 
 }

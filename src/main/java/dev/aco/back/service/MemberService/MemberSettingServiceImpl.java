@@ -50,10 +50,9 @@ public class MemberSettingServiceImpl implements MemberSettingService {
   @Override
   public Boolean changeUserImg(ChangeUserImgVO vo) {
     Optional<String> oldImg = mrepo.getUserImgByMemberId(vo.getMemberId());
-    // 기존 사진이 존재할경우?
     if (oldImg.isPresent()) {
       mrepo.updateUserImg(vo.getUserimg(), vo.getMemberId());
-    } else { // 기존 사진이 존재하지 않을경우 ==> 디폴트 이미지일것일텐데..
+    } else {
       imgManager.ImgUpload(vo.getFile());
     }
     return true;

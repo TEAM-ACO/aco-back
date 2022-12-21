@@ -2,6 +2,8 @@ package dev.aco.back.DTO.Article;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartRequest;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import dev.aco.back.DTO.User.MemberDTO;
@@ -25,5 +27,5 @@ public class ArticleDTO {
     private Integer recomends;
     private Integer reported;
     private List<ReplyDTO> replys;
-    private List<String> articleImages;
+    private List<MultipartRequest> articleImages;
 }

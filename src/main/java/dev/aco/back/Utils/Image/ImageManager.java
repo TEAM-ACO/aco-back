@@ -28,7 +28,7 @@ public class ImageManager {
                 img.transferTo(new File(DIRADRESS + fileName));
                 result.add(fileName);
             } catch (Exception e) {
-                
+
             }
         });
 
@@ -45,7 +45,7 @@ public class ImageManager {
             }
 
         } catch (Exception e) {
-            
+
         }
         return result;
     }
