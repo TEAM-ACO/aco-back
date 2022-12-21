@@ -83,7 +83,7 @@ class BackApplicationTests {
 				.build());
 
 		List<Hashtag> list = LongStream.range(1, 11).mapToObj(v -> {
-			rrepo.save(Reply.builder().article(article).replyContext("test" + v).replyGroup(v).replySort(0L).build());
+			rrepo.save(Reply.builder().member(member).article(article).replyContext("test" + v).replyGroup(v).replySort(0L).build());
 			airepo.save(ArticleImage.builder().article(article).img("basic" + v + ".png").build());
 			return hrepo.save(Hashtag.builder().tag("test" + v).build());
 		}).toList();
