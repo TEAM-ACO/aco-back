@@ -27,5 +27,6 @@ public class ArticleDTO {
     private Integer recomends;
     private Integer reported;
     private List<ReplyDTO> replys;
+    private List<String> articleImagesNames;
     private List<MultipartRequest> articleImages;
 }
