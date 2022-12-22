@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Article extends DateEntity{
+public class Article extends DateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleId;
@@ -41,7 +41,7 @@ public class Article extends DateEntity{
 
     @ManyToOne
     private Member member;
-    
+
     @Builder.Default
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = false)
     private List<ArticleHashtag> hashLinker = new ArrayList<>();
@@ -66,9 +66,7 @@ public class Article extends DateEntity{
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ArticleImage> articleImages = new ArrayList<>();
 
-
-
-    public String updateArticleContextToString(byte[] byteString){
+    public String updateArticleContextToString(byte[] byteString) {
         return new String(byteString, Charset.forName("utf8"));
     }
 }
