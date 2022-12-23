@@ -4,14 +4,16 @@ import lombok.Data;
 
 @Data
 public class ChatMessage {
-    public enum MessageType{
-        ENTER, TALK, LEAVE
+    public enum Status {
+        JOIN,
+        MESSAGE,
+        LEAVE
     }
-    private MessageType type;
-    private String roomId;
-    private String sender;
+    private String senderName;
+    private String receiverName;
     private String message;
-    private String timestamp;
+    private String date;
+    private Status status;
 
 
 }
