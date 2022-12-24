@@ -1,43 +1,30 @@
 package dev.aco.back.DirectMessage;
 
-import java.time.LocalDateTime;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.aco.back.Utils.Kafka.KafkaConstants;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 
-@Slf4j
-@CrossOrigin
 @RestController
-@RequestMapping(value = "/kafka")
+@RequiredArgsConstructor
 public class ChatController {
-    @Autowired
-    private KafkaTemplate<String, ChatMessage> kafkaTemplate;
 
-    @PostMapping(value = "/publish")
-    public void sendMessage(@RequestBody ChatMessage message) {
-        log.info("Produce message : " + message.toString());
-        message.setTimestamp(LocalDateTime.now().toString());
-        try {
-            kafkaTemplate.send(KafkaConstants.KAFKA_TOPIC, message).get();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
+    @MessageMapping("/message")
+    @SendTo("/chatroom/public")
+    public ChatMessage receiveMessage(@Payload ChatMessage message){
+        return message;
     }
 
-    @MessageMapping("/sendMessage")
-    @SendTo("/topic/group")
-    public ChatMessage broadcastGroupMessage(@Payload ChatMessage message) {
+    @MessageMapping("/private-message")
+    public ChatMessage recMessage(@Payload ChatMessage message){
+        simpMessagingTemplate.convertAndSendToUser(message.getReceiverName(),"/private",message);
+        System.out.println(message.toString());
         return message;
     }
 
