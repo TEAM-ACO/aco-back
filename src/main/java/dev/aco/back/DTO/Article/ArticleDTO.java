@@ -29,4 +29,5 @@ public class ArticleDTO {
     private List<ReplyDTO> replys;
     private List<String> articleImagesNames;
     private List<MultipartRequest> articleImages;
+    private Integer replyCount;
 }

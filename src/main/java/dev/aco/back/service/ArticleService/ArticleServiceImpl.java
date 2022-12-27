@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartRequest;
 
 import dev.aco.back.DTO.Article.ArticleDTO;
-import dev.aco.back.DTO.Article.ReplyDTO;
 import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.ArticleImage;
@@ -45,19 +44,6 @@ public class ArticleServiceImpl implements ArticleService {
                                         }).mapToInt(Integer::intValue).sum())
                                         .reported(v.getReported().size())
                                         .visitors(v.getVisitors().size())
-                                        .replys(v.getReplys().stream().map(r -> ReplyDTO
-                                                        .builder()
-                                                        .replyId(r.getReplyId())
-                                                        .replyGroup(r.getReplyGroup())
-                                                        .replySort(r.getReplySort())
-                                                        .replyContext(r.getReplyContext())
-                                                        .member(MemberDTO.builder()
-                                                                        .memberId(r.getMember()
-                                                                                        .getMemberId())
-                                                                        .email(r.getMember().getEmail())
-                                                                        .nickname(r.getMember().getNickname())
-                                                                        .build())
-                                                        .build()).toList())
                                         .articleImagesNames(v.getArticleImages().stream().map(i -> i.getImg()).toList())
                                         .build();
                 }).toList();

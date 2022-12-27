@@ -94,7 +94,8 @@ class BackApplicationTests {
 				.build());
 
 		List<Hashtag> list = LongStream.range(1, 11).mapToObj(v -> {
-			rrepo.save(Reply.builder().member(member).article(article).replyContext("test" + v).replyGroup(v).replySort(0L).build());
+			rrepo.save(Reply.builder().member(member).article(article).replyContext("test" + v).replyGroup(v)
+					.replySort(0L).build());
 			airepo.save(ArticleImage.builder().article(article).img("basic" + v + ".png").build());
 			return hrepo.save(Hashtag.builder().tag("test" + v).build());
 		}).toList();
@@ -127,22 +128,38 @@ class BackApplicationTests {
 	}
 
 	@Test
-	void testGetListEntityGraph(){
+	void testGetListEntityGraph() {
 		Pageable pageable = PageRequest.of(0, 5, Sort.by(Direction.DESC, "articleId"));
-		arepo.findAllEntityGraph(pageable).forEach(v->v.getReplys().forEach(f->log.info(f.getReplyContext())));
-		arepo.findAllEntityGraph(pageable).forEach(v->log.info(v.updateArticleContextToString(v.getArticleContext())));
+		arepo.findAllEntityGraph(pageable).forEach(v -> v.getReplys().forEach(f -> log.info(f.getReplyContext())));
+		arepo.findAllEntityGraph(pageable)
+				.forEach(v -> log.info(v.updateArticleContextToString(v.getArticleContext())));
 	}
 
 	@Test
-	void generateBunchofArticle(){
-		IntStream.range(0, 30).forEach(v->{
-			arepo.save(Article
-		.builder()
-		.articleContext((String.valueOf(v)+"test").getBytes())
-		.menu(Menu.Diary)
-		.member(Member.builder().memberId(1L).build())
-		.build());
+	void generateBunchofArticle() {
+		Member member = Member.builder().memberId(1L).build();
+		IntStream.range(2, 30).forEach(v -> {
+
+			Article article = arepo.saveAndFlush(Article
+											.builder()
+											.articleId(v*1L)
+											.articleContext((String.valueOf(v) + "test").getBytes())
+											.menu(Menu.Diary)
+											.member(member)
+											.build());
+
+			LongStream.range(0, 11).forEach(f -> {
+				rrepo
+						.save(Reply
+								.builder()
+								.member(member)
+								.article(article)
+								.replyContext(article.getArticleId()+"번 글의 댓글"+f)
+								.replyGroup(f).replySort(0L).build());
+			});
+
 		});
+
 	}
 
 }
