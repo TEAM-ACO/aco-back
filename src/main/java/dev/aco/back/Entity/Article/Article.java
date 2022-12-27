@@ -1,8 +1,9 @@
 package dev.aco.back.Entity.Article;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 
 import dev.aco.back.Entity.Enum.Menu;
 import dev.aco.back.Entity.Linker.ArticleHashtag;
@@ -18,6 +19,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,27 +46,30 @@ public class Article extends DateEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = false)
-    private List<ArticleHashtag> hashLinker = new ArrayList<>();
+    @OrderBy("hashLinkerId asc")
+    private Set<ArticleHashtag> hashLinker = new LinkedHashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = false)
-    private List<Visitor> visitors = new ArrayList<>();
+    private Set<Visitor> visitors = new LinkedHashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Recommend> recomends = new ArrayList<>();
+    private Set<Recommend> recomends = new LinkedHashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ArticleReport> reported = new ArrayList<>();
+    private Set<ArticleReport> reported = new LinkedHashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Reply> replys = new ArrayList<>();
+    @OrderBy("replyId asc")
+    private Set<Reply> replys = new LinkedHashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ArticleImage> articleImages = new ArrayList<>();
+    @OrderBy("articleImageId asc")
+    private Set<ArticleImage> articleImages = new LinkedHashSet<>();
 
     public String updateArticleContextToString(byte[] byteString) {
         return new String(byteString, Charset.forName("utf8"));

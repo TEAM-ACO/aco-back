@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import dev.aco.back.Entity.Article.Article;
@@ -121,6 +124,25 @@ class BackApplicationTests {
 				.responsedPageNumber(1).totalPageSize(1).list(listA).build();
 		Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize());
 		log.info(aser.readList(pageable));
+	}
+
+	@Test
+	void testGetListEntityGraph(){
+		Pageable pageable = PageRequest.of(0, 5, Sort.by(Direction.DESC, "articleId"));
+		arepo.findAllEntityGraph(pageable).forEach(v->v.getReplys().forEach(f->log.info(f.getReplyContext())));
+		arepo.findAllEntityGraph(pageable).forEach(v->log.info(v.updateArticleContextToString(v.getArticleContext())));
+	}
+
+	@Test
+	void generateBunchofArticle(){
+		IntStream.range(0, 30).forEach(v->{
+			arepo.save(Article
+		.builder()
+		.articleContext((String.valueOf(v)+"test").getBytes())
+		.menu(Menu.Diary)
+		.member(Member.builder().memberId(1L).build())
+		.build());
+		});
 	}
 
 }

@@ -30,7 +30,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         @Override
         public List<ArticleDTO> readList(Pageable pageable) {
-                return arepo.findAll(pageable).stream().map(v -> {
+                return arepo.findAllEntityGraph(pageable).stream().map(v -> {
                         return ArticleDTO
                                         .builder()
                                         .articleId(v.getArticleId())
