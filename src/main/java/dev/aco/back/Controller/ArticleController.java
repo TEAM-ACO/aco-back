@@ -52,9 +52,7 @@ public class ArticleController {
 
     @PostMapping(value = "reply/{article}")
     public ResponseEntity<List<ReplyDTO>> readReplyByArticleId(@PathVariable Long article, @RequestBody pageVO vo){
-        log.info(article);
         Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize());
         return new ResponseEntity<>(rser.readReplyByArticleId(article, pageable), HttpStatus.OK);
-        // return null;
     }
 }

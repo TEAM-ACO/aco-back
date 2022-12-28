@@ -2,6 +2,7 @@ package dev.aco.back.service.ArticleService.Reply;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,8 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public List<ReplyDTO> readReplyByArticleId(Long articleId, Pageable pageable) {
-            return rrepo.findAllByArticleArticleId(pageable, articleId).getContent().stream().map(v->{
+		Page<Reply> result = rrepo.findAllByArticleArticleId(pageable, articleId);
+            return result.getContent().stream().map(v->{
                 return ReplyDTO.builder()
                 .replyId(v.getReplyId())
                 .replyContext(v.getReplyContext())
@@ -49,6 +51,7 @@ public class ReplyServiceImpl implements ReplyService {
 							.build()
                         )
 				.article(ArticleDTO.builder().articleId(articleId).build())
+				.totalCount(result.getTotalElements())
                 .build();
             }).toList();
     }
