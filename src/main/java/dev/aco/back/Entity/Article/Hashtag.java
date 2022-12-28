@@ -28,7 +28,7 @@ public class Hashtag {
     private Long hashtagId;
 
     @Builder.Default
-    @OneToMany(mappedBy = "hashtag", fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "hashtag", fetch = FetchType.EAGER, orphanRemoval = false)
     private List<ArticleHashtag> hashLinker = new ArrayList<>();
 
     @Column(nullable = false)
