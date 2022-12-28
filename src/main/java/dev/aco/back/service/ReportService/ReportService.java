@@ -10,13 +10,13 @@ import dev.aco.back.Entity.User.Member;
 public interface ReportService {
     Boolean reportUser(MemberReportDTO dto);
 
-    Boolean reportArticle(ArticleReportDTO dto);
+    Integer reportArticle(ArticleReportDTO dto);
 
     default ArticleReport toEntityArticle(ArticleReportDTO dto) {
         return ArticleReport.builder()
                 .articleReportTitle(dto.getArticleReportTitle())
                 .articleReportContext(dto.getArticleReportContext())
-                .articlereporter(Member.builder().memberId(dto.getArticleId()).build())
+                .articlereporter(Member.builder().memberId(dto.getArticlereporterId()).build())
                 .article(Article.builder().articleId(dto.getArticleId()).build())
                 .build();
     }
