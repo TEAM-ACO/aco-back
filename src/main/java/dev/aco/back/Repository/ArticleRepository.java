@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import dev.aco.back.Entity.Article.Article;
+import dev.aco.back.Entity.Enum.Menu;
 
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
@@ -25,4 +26,9 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member"})
     Page<Article> findByNounsNounIn(Pageable pageable, List<String> keywords);
+
+    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member"})
+    @Query(value = "SELECT att FROM Article att where att.menu=:menu", 
+    countQuery = "SELECT att FROM Article att where att.menu=:menu")
+    Page<Article> findAllEntityGraphByMenu(Pageable pageable, Menu menu);
 }

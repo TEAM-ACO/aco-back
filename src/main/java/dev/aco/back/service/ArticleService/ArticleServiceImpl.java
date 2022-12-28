@@ -15,6 +15,7 @@ import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.ArticleImage;
 import dev.aco.back.Entity.Article.ArticleNoun;
 import dev.aco.back.Entity.Article.Hashtag;
+import dev.aco.back.Entity.Enum.Menu;
 import dev.aco.back.Repository.ArticleImageRepository;
 import dev.aco.back.Repository.ArticleNounRepository;
 import dev.aco.back.Repository.ArticleRepository;
@@ -47,6 +48,13 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<ArticleDTO> readListByKeywords(Pageable request, String keywords) {
 		return arepo.findByNounsNounIn(request, nounExtractor(keywords)).stream().map(v -> toDTO(v)).toList();
 	}
+
+	@Override
+	public List<ArticleDTO> readListByMenu(Pageable request, Integer menuId) {
+		
+		return arepo.findAllEntityGraphByMenu(request, Menu.values()[menuId]).stream().map(v->toDTO(v)).toList();
+		//    0: Diary, 1: Tip, 2:Question
+	}	
 
 	// =========================================================================================================================================================
 	// write
