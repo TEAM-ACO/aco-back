@@ -13,7 +13,7 @@ import dev.aco.back.Entity.User.Member;
 public interface ArticleService {
     List<ArticleDTO> readList(Pageable request);
     List<ArticleDTO> readListByMemberId(Pageable request, Long memberId);
-
+    List<ArticleDTO> readListByKeywords(Pageable request, String keywords);
     Long write(ArticleDTO dto);
 
 

@@ -71,6 +71,10 @@ public class Article extends DateEntity {
     @OrderBy("articleImageId asc")
     private Set<ArticleImage> articleImages = new LinkedHashSet<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<ArticleNoun> nouns = new LinkedHashSet<>();
+
     public String updateArticleContextToString(byte[] byteString) {
         return new String(byteString, Charset.forName("utf8"));
     }
