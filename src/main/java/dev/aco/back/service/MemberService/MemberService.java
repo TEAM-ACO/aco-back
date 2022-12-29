@@ -43,6 +43,7 @@ public interface MemberService {
         .mobile(dto.getMobile())
         .oauth(dto.getOauth())
         .logged(dto.getLogged())
+        .roleSet(dto.getRoleSet().stream().map(v->Roles.valueOf(v)).collect(Collectors.toSet()))
         .userimg(dto.getUserimg())
         .build();
     return entity;

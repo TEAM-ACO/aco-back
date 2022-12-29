@@ -21,4 +21,5 @@ public class ReplyDTO {
     private boolean hide;
     private MemberDTO member;
     private ArticleDTO article;
+    private Long totalCount;
 }

@@ -6,4 +6,5 @@ import dev.aco.back.Entity.Report.ArticleReport;
 
 public interface ArticleReportRepository extends JpaRepository<ArticleReport, Long>{
     
+    Boolean existsByArticleArticleIdAndArticlereporterMemberId(Long article, Long articlereporter);
 }

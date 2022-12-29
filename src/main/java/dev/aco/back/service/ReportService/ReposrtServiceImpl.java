@@ -14,12 +14,16 @@ public class ReposrtServiceImpl implements ReportService{
     private final ArticleReportRepository arrepo;
     private final MemberReportRepository mrrepo;
     @Override
-    public Boolean reportArticle(ArticleReportDTO dto) {
-        try {
-            arrepo.save(toEntityArticle(dto));
-            return true;
-        } catch (Exception e) {
-            return false;
+    public Integer reportArticle(ArticleReportDTO dto) {
+        if(arrepo.existsByArticleArticleIdAndArticlereporterMemberId(dto.getArticleId(), dto.getArticlereporterId())){
+            return -1;
+        }else{
+            try {
+                arrepo.save(toEntityArticle(dto));
+                return 1;
+            } catch (Exception e) {
+                return 2;
+            }
         }
     }
 
