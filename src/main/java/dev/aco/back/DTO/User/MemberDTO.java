@@ -25,5 +25,4 @@ public class MemberDTO {
   private String oauth;
   private Boolean logged;
   private String userimg;
-
 }

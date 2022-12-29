@@ -66,6 +66,11 @@ public class Article extends DateEntity {
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ArticleImage> articleImages = new ArrayList<>();
 
+    @Builder.Default
+    // mappedBy - 양방향 연관관계, orphanRemoval=true -기존 NULL처리된 자식(연결된 점이 없는 객체)을 DELETE
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<ArticleLike> liker = new ArrayList<>();
+
     public String updateArticleContextToString(byte[] byteString) {
         return new String(byteString, Charset.forName("utf8"));
     }

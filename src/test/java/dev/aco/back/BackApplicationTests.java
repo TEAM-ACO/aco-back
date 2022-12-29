@@ -3,7 +3,11 @@ package dev.aco.back;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
@@ -13,9 +17,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import dev.aco.back.DTO.Article.LikeDTO;
 import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.ArticleImage;
 import dev.aco.back.Entity.Article.Hashtag;
+import dev.aco.back.Entity.Article.ArticleLike;
 import dev.aco.back.Entity.Article.Recommend;
 import dev.aco.back.Entity.Article.Reply;
 import dev.aco.back.Entity.Enum.Menu;
@@ -28,12 +34,14 @@ import dev.aco.back.Repository.ArticleImageRepository;
 import dev.aco.back.Repository.ArticleReportRepository;
 import dev.aco.back.Repository.ArticleRepository;
 import dev.aco.back.Repository.HashtagRepository;
+import dev.aco.back.Repository.LikeRepository;
 import dev.aco.back.Repository.MemberRepository;
 import dev.aco.back.Repository.RecommendRepository;
 import dev.aco.back.Repository.ReplyRepository;
 import dev.aco.back.Repository.VisitorRepository;
 import dev.aco.back.Repository.Linker.HashArticleLInker;
 import dev.aco.back.VO.pageVO;
+import dev.aco.back.service.ArticleService.ArticleLikeService;
 import dev.aco.back.service.ArticleService.ArticleService;
 import lombok.extern.log4j.Log4j2;
 
@@ -59,12 +67,16 @@ class BackApplicationTests {
 	private ArticleReportRepository arrepo;
 	@Autowired
 	private ArticleImageRepository airepo;
+	@Autowired
+	private LikeRepository lrepo;
 
 	@Autowired
 	private PasswordEncoder pEncoder;
 
 	@Autowired
 	private ArticleService aser;
+	@Autowired
+	private ArticleLikeService alser;
 
 	@Test
 	void articleGenerator() {
@@ -105,11 +117,39 @@ class BackApplicationTests {
 		});
 
 		vrepo.save(Visitor.builder().prevLink("test.test.com").article(article).build());
-		rcrepo.save(Recommend.builder().recomended(true).recommender(member).article(article).build());
+		// rcrepo.save(Recommend.builder().recomended(true).recommender(member).article(article).build());
 		arrepo.save(ArticleReport.builder().article(article).articleReportContext("test")
 				.articleReportTitle("testtitle").articlereporter(member).build());
+		lrepo.save(ArticleLike.builder().liked(true).liker(member).article(article).build());
 
 	}
+
+	@Test
+    void generateBunchofArticle() {
+        Member member = Member.builder().memberId(1L).build();
+        IntStream.range(2, 30).forEach(v -> {
+
+            Article article = arepo.saveAndFlush(Article
+                                            .builder()
+                                            .articleId(v*1L)
+                                            .articleContext((String.valueOf(v) + "test").getBytes())
+                                            .menu(Menu.Diary)
+                                            .member(member)
+                                            .build());
+
+            LongStream.range(0, 11).forEach(f -> {
+                rrepo
+                        .save(Reply
+                                .builder()
+                                .member(member)
+                                .article(article)
+                                .replyContext(article.getArticleId()+"번 글의 댓글"+f)
+                                .replyGroup(f).replySort(0L).build());
+            });
+
+        });
+
+    }
 
 	@Test
 	void testList() {
@@ -123,4 +163,9 @@ class BackApplicationTests {
 		log.info(aser.readList(pageable));
 	}
 
+	@Test
+	void testLikeChecking(){
+    	log.info(alser.likeChecking(LikeDTO.builder()
+			.liked(true).liker(1L).article(1L).build()));
+	}
 }

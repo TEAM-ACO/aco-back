@@ -8,4 +8,5 @@ import dev.aco.back.Entity.Article.Article;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findAll();
+    Article findByArticleId(Long articleId);
 }
