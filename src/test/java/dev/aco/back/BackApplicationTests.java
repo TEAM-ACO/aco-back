@@ -176,15 +176,6 @@ class BackApplicationTests {
 	}
 
 	@Test
-	void findByNouns(){
-		Pageable pageable = PageRequest.of(0, 5, Sort.by(Direction.DESC, "articleId"));
-		List<String> strings = new ArrayList<>();
-		strings.add("test");
-		strings.add("5");
-		arepo.findByNounsNounIn(pageable, strings).forEach(v->log.info(v.getArticleId()));
-	}
-
-	@Test
 	void nounTest(){
 		String text = "test 가나다라마바사 안녕";
 		CharSequence normalized = OpenKoreanTextProcessorJava.normalize(text);

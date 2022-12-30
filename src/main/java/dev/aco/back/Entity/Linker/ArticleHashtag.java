@@ -3,6 +3,7 @@ package dev.aco.back.Entity.Linker;
 import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.Hashtag;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +25,6 @@ public class ArticleHashtag {
 
     @ManyToOne
     private Article article;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Hashtag hashtag;
 }
