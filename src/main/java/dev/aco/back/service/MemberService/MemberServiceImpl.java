@@ -33,7 +33,6 @@ public class MemberServiceImpl implements MemberService {
 
     Set<String> userole = new HashSet<>();
     userole.add(Roles.User.toString());
-    dto.setPassword(encoder.encode(dto.getPassword()));
     Optional<emailAuth> resultCheck = mrepo.getByEmail(dto.getEmail());
     if (resultCheck.get().getEmail().length() > 0 && resultCheck.get().getIsAuthrized() == true) {
       dto.setPassword(encoder.encode(dto.getPassword()));

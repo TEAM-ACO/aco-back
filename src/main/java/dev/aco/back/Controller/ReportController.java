@@ -24,8 +24,8 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/article", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> articleReportRequest(@RequestBody ArticleReportDTO dto){
-        return new ResponseEntity<Boolean>(rser.reportArticle(dto), HttpStatus.OK);
+    public ResponseEntity<Integer> articleReportRequest(@RequestBody ArticleReportDTO dto){
+        return new ResponseEntity<Integer>(rser.reportArticle(dto), HttpStatus.OK);
     }
 
 }
