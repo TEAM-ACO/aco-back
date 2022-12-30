@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartRequest;
 
 import dev.aco.back.DTO.Article.ArticleDTO;
-import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.ArticleImage;
 import dev.aco.back.Entity.Article.Hashtag;
@@ -29,25 +28,14 @@ public class ArticleServiceImpl implements ArticleService {
 
         @Override
         public List<ArticleDTO> readList(Pageable pageable) {
-                return arepo.findAllEntityGraph(pageable).stream().map(v -> {
-                        return ArticleDTO
-                                        .builder()
-                                        .articleId(v.getArticleId())
-                                        .articleContext(v.updateArticleContextToString(v.getArticleContext()))
-                                        .menu(v.getMenu().toString())
-                                        .member(MemberDTO.builder().memberId(v.getMember().getMemberId())
-                                                        .nickname(v.getMember().getNickname())
-                                                        .email(v.getMember().getEmail()).build())
-                                        .tags(v.getHashLinker().stream().map(t -> t.getHashtag().getTag()).toList())
-                                        .recomends(v.getRecomends().stream().map(r -> {
-                                                return r.isRecomended() ? 1 : -1;
-                                        }).mapToInt(Integer::intValue).sum())
-                                        .reported(v.getReported().size())
-                                        .visitors(v.getVisitors().size())
-                                        .articleImagesNames(v.getArticleImages().stream().map(i -> i.getImg()).toList())
-                                        .build();
-                }).toList();
+                return arepo.findAllEntityGraph(pageable).stream().map(v -> toDTO(v)).toList();
         }
+
+        @Override
+        public List<ArticleDTO> readListByMemberId(Pageable request, Long memberId) {
+                return arepo.findAllEntityGraphByMemberId(request, memberId).stream().map(v->toDTO(v)).toList();
+        }
+        
 
         // =========================================================================================================================================================
         // write
