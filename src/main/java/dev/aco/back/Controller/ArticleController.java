@@ -34,6 +34,12 @@ public class ArticleController {
         return new ResponseEntity<>(aser.readList(pageable), HttpStatus.OK);
     }
 
+    @PostMapping(value = "menu/{menu}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ArticleDTO>> getArticleListByMenu(@RequestBody pageVO vo , @PathVariable Integer menu) {
+        Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "articleId"));
+        return new ResponseEntity<>(aser.readListByMenu(pageable, menu), HttpStatus.OK);
+    }
+
     @PostMapping(value = "list/{memberid}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ArticleDTO>> getArticleListByMemberId(@RequestBody pageVO vo, @PathVariable Long memberid) {
         Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize()*2, Sort.by(Direction.DESC, "articleId"));
