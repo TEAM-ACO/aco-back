@@ -36,8 +36,14 @@ public class ArticleController {
 
     @PostMapping(value = "list/{memberid}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ArticleDTO>> getArticleListByMemberId(@RequestBody pageVO vo, @PathVariable Long memberid) {
-        Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "articleId"));
+        Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize()*2, Sort.by(Direction.DESC, "articleId"));
         return new ResponseEntity<>(aser.readListByMemberId(pageable, memberid), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "search/{keywords}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ArticleDTO>> searchingArticles(@RequestBody pageVO vo, @PathVariable String keywords) {
+        Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "articleId"));
+        return new ResponseEntity<>(aser.readListByKeywords(pageable, keywords), HttpStatus.OK);
     }
 
     @PostMapping(value = "write", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

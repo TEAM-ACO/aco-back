@@ -1,6 +1,8 @@
 package dev.aco.back.Repository;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -16,6 +18,11 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Page<Article> findAllEntityGraph(Pageable pageable);
 
     @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member"})
-    @Query(value = "SELECT att FROM Article att where att.member.memberId=:memberId", countQuery = "SELECT count(att) FROM Article att")
+    @Query(value = "SELECT att FROM Article att where att.member.memberId=:memberId", 
+           countQuery = "SELECT att FROM Article att where att.member.memberId=:memberId")
     Page<Article> findAllEntityGraphByMemberId(Pageable pageable, Long memberId);
+
+
+    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member"})
+    Page<Article> findByNounsNounIn(Pageable pageable, List<String> keywords);
 }
