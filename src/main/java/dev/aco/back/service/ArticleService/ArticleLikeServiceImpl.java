@@ -1,25 +1,13 @@
 package dev.aco.back.service.ArticleService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
 
 import org.springframework.stereotype.Service;
 
-import dev.aco.back.DTO.Article.ArticleDTO;
 import dev.aco.back.DTO.Article.LikeDTO;
-import dev.aco.back.DTO.User.MemberDTO;
-import dev.aco.back.Entity.Article.Article;
-import dev.aco.back.Entity.Article.ArticleLike;
-import dev.aco.back.Entity.User.Member;
-import dev.aco.back.Repository.ArticleRepository;
+
 import dev.aco.back.Repository.LikeRepository;
-import dev.aco.back.Repository.MemberRepository;
-import dev.aco.back.service.ArticleService.ArticleService;
-import dev.aco.back.service.MemberService.MemberService;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,10 +15,6 @@ import lombok.RequiredArgsConstructor;
 
 public class ArticleLikeServiceImpl implements ArticleLikeService {
     private final LikeRepository lrepo;
-    // private final ArticleRepository arepo;
-    // private final ArticleService aService;
-    // private final MemberRepository mrepo;
-    // private final MemberService mService;
 
     @Override
     public Boolean likeUser(LikeDTO dto) {

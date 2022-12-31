@@ -10,7 +10,6 @@ import dev.aco.back.Repository.MailRepository;
 import dev.aco.back.Utils.Redis.RedisManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor

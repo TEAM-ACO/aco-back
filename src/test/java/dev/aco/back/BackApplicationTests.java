@@ -3,11 +3,7 @@ package dev.aco.back;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
@@ -26,10 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import dev.aco.back.DTO.Article.LikeDTO;
 import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.ArticleImage;
+import dev.aco.back.Entity.Article.ArticleLike;
 import dev.aco.back.Entity.Article.ArticleNoun;
 import dev.aco.back.Entity.Article.Hashtag;
-import dev.aco.back.Entity.Article.ArticleLike;
-import dev.aco.back.Entity.Article.Recommend;
 import dev.aco.back.Entity.Article.Reply;
 import dev.aco.back.Entity.Enum.Menu;
 import dev.aco.back.Entity.Enum.Roles;
@@ -44,7 +39,6 @@ import dev.aco.back.Repository.ArticleRepository;
 import dev.aco.back.Repository.HashtagRepository;
 import dev.aco.back.Repository.LikeRepository;
 import dev.aco.back.Repository.MemberRepository;
-import dev.aco.back.Repository.RecommendRepository;
 import dev.aco.back.Repository.ReplyRepository;
 import dev.aco.back.Repository.VisitorRepository;
 import dev.aco.back.Repository.Linker.HashArticleLInker;
@@ -70,8 +64,6 @@ class BackApplicationTests {
 	private VisitorRepository vrepo;
 	@Autowired
 	private ReplyRepository rrepo;
-	@Autowired
-	private RecommendRepository rcrepo;
 	@Autowired
 	private ArticleReportRepository arrepo;
 	@Autowired
@@ -163,33 +155,6 @@ class BackApplicationTests {
     //     });
 
     // }
-
-	@Test
-    void generateBunchofArticle() {
-        Member member = Member.builder().memberId(1L).build();
-        IntStream.range(2, 30).forEach(v -> {
-
-            Article article = arepo.saveAndFlush(Article
-                                            .builder()
-                                            .articleId(v*1L)
-                                            .articleContext((String.valueOf(v) + "test").getBytes())
-                                            .menu(Menu.Diary)
-                                            .member(member)
-                                            .build());
-
-            LongStream.range(0, 11).forEach(f -> {
-                rrepo
-                        .save(Reply
-                                .builder()
-                                .member(member)
-                                .article(article)
-                                .replyContext(article.getArticleId()+"번 글의 댓글"+f)
-                                .replyGroup(f).replySort(0L).build());
-            });
-
-        });
-
-    }
 
 	@Test
 	void testList() {
