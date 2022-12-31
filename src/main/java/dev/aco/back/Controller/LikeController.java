@@ -1,16 +1,12 @@
 package dev.aco.back.Controller;
 
-import java.util.HashMap;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.aco.back.DTO.Article.LikeDTO;
-import dev.aco.back.Entity.User.Member;
 import dev.aco.back.service.ArticleService.ArticleLikeService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
