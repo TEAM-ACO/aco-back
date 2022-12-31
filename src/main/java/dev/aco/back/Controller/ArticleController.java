@@ -21,8 +21,11 @@ import dev.aco.back.VO.pageVO;
 import dev.aco.back.service.ArticleService.ArticleService;
 import dev.aco.back.service.ArticleService.Reply.ReplyService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
 @RestController
 @RequiredArgsConstructor
+@Log4j2
 @RequestMapping(value = "/article")
 public class ArticleController {
     private final ArticleService aser;
@@ -34,22 +37,30 @@ public class ArticleController {
         return new ResponseEntity<>(aser.readList(pageable), HttpStatus.OK);
     }
 
+    @PostMapping(value = "menu/{menu}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ArticleDTO>> getArticleListByMenu(@RequestBody pageVO vo , @PathVariable Integer menu) {
+        Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "articleId"));
+        return new ResponseEntity<>(aser.readListByMenu(pageable, menu), HttpStatus.OK);
+    }
+
     @PostMapping(value = "list/{memberid}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ArticleDTO>> getArticleListByMemberId(@RequestBody pageVO vo, @PathVariable Long memberid) {
+        log.info(vo);
         Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize()*2, Sort.by(Direction.DESC, "articleId"));
         return new ResponseEntity<>(aser.readListByMemberId(pageable, memberid), HttpStatus.OK);
     }
 
     @PostMapping(value = "search/{keywords}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ArticleDTO>> searchingArticles(@RequestBody pageVO vo, @PathVariable String keywords) {
+        log.info(vo);
         Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "articleId"));
         return new ResponseEntity<>(aser.readListByKeywords(pageable, keywords), HttpStatus.OK);
     }
 
-    @PostMapping(value = "write", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Long> write(@RequestBody ArticleDTO dto) {
-        return new ResponseEntity<>(aser.write(dto), HttpStatus.OK);
-    }
+    // @PostMapping(value = "write", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    // public ResponseEntity<Long> write(@RequestBody ArticleDTO dto) {
+    //     return new ResponseEntity<>(aser.write(dto), HttpStatus.OK);
+    // }
 
     @PostMapping(value = "reply/write")
     public ResponseEntity<Boolean> writeReply(@RequestBody ReplyDTO dto){

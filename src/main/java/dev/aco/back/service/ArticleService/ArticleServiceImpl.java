@@ -2,6 +2,8 @@ package dev.aco.back.service.ArticleService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.openkoreantext.processor.OpenKoreanTextProcessorJava;
 import org.openkoreantext.processor.phrase_extractor.KoreanPhraseExtractor;
@@ -15,10 +17,12 @@ import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.ArticleImage;
 import dev.aco.back.Entity.Article.ArticleNoun;
 import dev.aco.back.Entity.Article.Hashtag;
+import dev.aco.back.Entity.Enum.Menu;
 import dev.aco.back.Repository.ArticleImageRepository;
 import dev.aco.back.Repository.ArticleNounRepository;
 import dev.aco.back.Repository.ArticleRepository;
 import dev.aco.back.Repository.HashtagRepository;
+import dev.aco.back.Repository.Linker.HashArticleLInker;
 import dev.aco.back.Utils.Image.ImageManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +35,9 @@ public class ArticleServiceImpl implements ArticleService {
 	private final ArticleImageRepository airepo;
 	private final ArticleNounRepository anrepo;
 	private final HashtagRepository hrepo;
+
+	private final HashArticleLInker halrepo;
+
 	private final ImageManager imageManager;
 
 	@Override
@@ -45,7 +52,16 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public List<ArticleDTO> readListByKeywords(Pageable request, String keywords) {
-		return arepo.findByNounsNounIn(request, nounExtractor(keywords)).stream().map(v -> toDTO(v)).toList();
+		String regex = String.join("|", nounExtractor(keywords));
+		Set<Long> resultIds = halrepo.searchingArticleIdWithRegexText(regex).stream().collect(Collectors.toSet());
+		resultIds.addAll(anrepo.searchingArticleIdWithRegexText(regex));
+		return arepo.findAllByArticleIdIn(request, resultIds.stream().toList()).stream().map(v->toDTO(v)).toList();
+		
+	}
+	@Override
+	public List<ArticleDTO> readListByMenu(Pageable request, Integer menuId) {
+		return arepo.findAllEntityGraphByMenu(request, Menu.values()[menuId]).stream().map(v->toDTO(v)).toList();
+		//    0: Diary, 1: Tip, 2:Question
 	}
 
 	// =========================================================================================================================================================
@@ -89,7 +105,12 @@ public class ArticleServiceImpl implements ArticleService {
 		CharSequence normalized = OpenKoreanTextProcessorJava.normalize(string);
 		Seq<KoreanTokenizer.KoreanToken> tokens = OpenKoreanTextProcessorJava.tokenize(normalized);
 		List<KoreanPhraseExtractor.KoreanPhrase> phrases = OpenKoreanTextProcessorJava.extractPhrases(tokens, true, true);
-		return phrases.stream().map(v -> v.text()).toList();
+
+		if(phrases.size()!=0){
+			return phrases.stream().map(v -> v.text()).toList();
+		}else{
+			return List.of(string.split(" "));
+		}
 	}
 
 }

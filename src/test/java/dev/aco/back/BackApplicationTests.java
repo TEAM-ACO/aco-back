@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 // import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -218,15 +219,6 @@ class BackApplicationTests {
 
 		});
 
-	}
-
-	@Test
-	void findByNouns(){
-		Pageable pageable = PageRequest.of(0, 5, Sort.by(Direction.DESC, "articleId"));
-		List<String> strings = new ArrayList<>();
-		strings.add("test");
-		strings.add("5");
-		arepo.findByNounsNounIn(pageable, strings).forEach(v->log.info(v.getArticleId()));
 	}
 
 	@Test
