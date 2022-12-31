@@ -137,33 +137,6 @@ class BackApplicationTests {
 
 	}
 
-	// @Test
-    // void generateBunchofArticle() {
-    //     Member member = Member.builder().memberId(1L).build();
-    //     IntStream.range(2, 30).forEach(v -> {
-
-    //         Article article = arepo.saveAndFlush(Article
-    //                                         .builder()
-    //                                         .articleId(v*1L)
-    //                                         .articleContext((String.valueOf(v) + "test").getBytes())
-    //                                         .menu(Menu.Diary)
-    //                                         .member(member)
-    //                                         .build());
-
-    //         LongStream.range(0, 11).forEach(f -> {
-    //             rrepo
-    //                     .save(Reply
-    //                             .builder()
-    //                             .member(member)
-    //                             .article(article)
-    //                             .replyContext(article.getArticleId()+"번 글의 댓글"+f)
-    //                             .replyGroup(f).replySort(0L).build());
-    //         });
-
-    //     });
-
-    // }
-
 	@Test
     void generateBunchofArticle() {
         Member member = Member.builder().memberId(1L).build();
@@ -186,9 +159,7 @@ class BackApplicationTests {
                                 .replyContext(article.getArticleId()+"번 글의 댓글"+f)
                                 .replyGroup(f).replySort(0L).build());
             });
-
         });
-
     }
 
 	@Test
@@ -214,38 +185,6 @@ class BackApplicationTests {
 		arepo.findAllEntityGraph(pageable).forEach(v -> v.getReplys().forEach(f -> log.info(f.getReplyContext())));
 		arepo.findAllEntityGraph(pageable)
 				.forEach(v -> log.info(v.updateArticleContextToString(v.getArticleContext())));
-	}
-
-	@Test
-	void generateBunchofArticle() {
-		Member member = Member.builder().memberId(1L).build();
-		IntStream.range(2, 30).forEach(v -> {
-
-			Article article = arepo.saveAndFlush(Article
-											.builder()
-											.articleId(v*1L)
-											.articleContext((String.valueOf(v) + "test").getBytes())
-											.menu(Menu.Diary)
-											.member(member)
-											.build());
-
-			LongStream.range(0, 11).forEach(f -> {
-				rrepo
-						.save(Reply
-								.builder()
-								.member(member)
-								.article(article)
-								.replyContext(article.getArticleId()+"번 글의 댓글"+f)
-								.replyGroup(f).replySort(0L).build());
-			});
-
-			CharSequence normalized = OpenKoreanTextProcessorJava.normalize("가나다라 안녕 테스트야 test 한다");
-			Seq<KoreanTokenizer.KoreanToken> tokens = OpenKoreanTextProcessorJava.tokenize(normalized);
-			List<KoreanPhraseExtractor.KoreanPhrase> phrases = OpenKoreanTextProcessorJava.extractPhrases(tokens, true, true);
-					phrases.forEach(c->anrepo.save(ArticleNoun.builder().article(article).noun(c.text()).build()));
-
-		});
-
 	}
 
 	@Test

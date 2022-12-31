@@ -57,10 +57,10 @@ public class ArticleController {
         return new ResponseEntity<>(aser.readListByKeywords(pageable, keywords), HttpStatus.OK);
     }
 
-    // @PostMapping(value = "write", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<Long> write(@RequestBody ArticleDTO dto) {
-    //     return new ResponseEntity<>(aser.write(dto), HttpStatus.OK);
-    // }
+    @PostMapping(value = "write", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> write(@RequestBody ArticleDTO dto) {
+        return new ResponseEntity<>(aser.write(dto), HttpStatus.OK);
+    }
 
     @PostMapping(value = "reply/write")
     public ResponseEntity<Boolean> writeReply(@RequestBody ReplyDTO dto){

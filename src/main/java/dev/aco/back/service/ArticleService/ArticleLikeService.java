@@ -26,7 +26,6 @@ public interface ArticleLikeService {
   default LikeDTO EntityToDto(ArticleLike entity) {
     LikeDTO dto = LikeDTO.builder()
     .likeId(entity.getLikeId())
-    // .liker(Member.builder().memberId(dto.getLiker()).build())
     .liker(entity.getLiker().getMemberId())
     .article(entity.getArticle().getArticleId())
     .build();
