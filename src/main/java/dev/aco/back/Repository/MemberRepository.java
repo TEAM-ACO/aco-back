@@ -1,7 +1,10 @@
 package dev.aco.back.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +13,11 @@ import dev.aco.back.Entity.User.Member;
 import jakarta.transaction.Transactional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
+    @Query("""
+            SELECT mb.memberId as memberId, mb.nickname as nickname, mb.createdDateTime as joindate, mb.email as email 
+            FROM Member mb 
+            """)
+    Page<getRecentMember> findAllRecentMember(Pageable pageable);
 
     Boolean existsByEmail(String email);
 
@@ -41,4 +49,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("UPDATE Member mb set mb.userimg=:userimg where mb.memberId =:memberId")
     void updateUserImg(String userimg, Long memberId);
 
+
+    public interface getRecentMember{
+        Long getMemberId();
+        String getNickname();
+        String getEmail();
+        LocalDateTime getJoindate();
+    }
 }

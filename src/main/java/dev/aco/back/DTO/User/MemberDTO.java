@@ -1,5 +1,6 @@
 package dev.aco.back.DTO.User;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -25,5 +26,6 @@ public class MemberDTO {
   private String oauth;
   private Boolean logged;
   private String userimg;
+  private LocalDateTime joindate;
 
 }
