@@ -27,4 +27,5 @@ public class MemberDTO {
   private Boolean logged;
   private String userimg;
   private LocalDateTime joindate;
+
 }

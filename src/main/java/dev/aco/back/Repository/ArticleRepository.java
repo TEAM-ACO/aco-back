@@ -1,8 +1,5 @@
 package dev.aco.back.Repository;
 
-
-
-
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -15,13 +12,19 @@ import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Enum.Menu;
 
 
+
 public interface ArticleRepository extends JpaRepository<Article, Long> {
+
+
+    // List<Article> findAll();
+    // Article findByArticleId(Long articleId);
 
     @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "hashLinker.hashtag"})
     Page<Article> findAll(Pageable pageable);
     
     List<Article> findAll();
     Article findByArticleId(Long articleId);
+
 
 
     @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member"})

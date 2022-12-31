@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -77,7 +78,8 @@ class BackApplicationTests {
 	private ArticleImageRepository airepo;
 	@Autowired
 	private LikeRepository lrepo;
-  @Autowired
+
+	@Autowired
 	private ArticleNounRepository anrepo;
 
 	@Autowired
@@ -135,6 +137,33 @@ class BackApplicationTests {
 
 	}
 
+	// @Test
+    // void generateBunchofArticle() {
+    //     Member member = Member.builder().memberId(1L).build();
+    //     IntStream.range(2, 30).forEach(v -> {
+
+    //         Article article = arepo.saveAndFlush(Article
+    //                                         .builder()
+    //                                         .articleId(v*1L)
+    //                                         .articleContext((String.valueOf(v) + "test").getBytes())
+    //                                         .menu(Menu.Diary)
+    //                                         .member(member)
+    //                                         .build());
+
+    //         LongStream.range(0, 11).forEach(f -> {
+    //             rrepo
+    //                     .save(Reply
+    //                             .builder()
+    //                             .member(member)
+    //                             .article(article)
+    //                             .replyContext(article.getArticleId()+"번 글의 댓글"+f)
+    //                             .replyGroup(f).replySort(0L).build());
+    //         });
+
+    //     });
+
+    // }
+
 	@Test
     void generateBunchofArticle() {
         Member member = Member.builder().memberId(1L).build();
@@ -179,6 +208,7 @@ class BackApplicationTests {
     	log.info(alser.likeChecking(LikeDTO.builder()
 			.liked(true).liker(1L).article(1L).build()));
 	}
+
 	void testGetListEntityGraph() {
 		Pageable pageable = PageRequest.of(0, 5, Sort.by(Direction.DESC, "articleId"));
 		arepo.findAllEntityGraph(pageable).forEach(v -> v.getReplys().forEach(f -> log.info(f.getReplyContext())));
@@ -226,5 +256,4 @@ class BackApplicationTests {
 		List<KoreanPhraseExtractor.KoreanPhrase> phrases = OpenKoreanTextProcessorJava.extractPhrases(tokens, true, true);
 		phrases.stream().map(v->v.text()).toList().forEach(v->log.info(v));
 	}
-
 }

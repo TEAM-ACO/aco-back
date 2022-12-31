@@ -35,7 +35,9 @@ public class ArticleServiceImpl implements ArticleService {
 	private final ArticleImageRepository airepo;
 	private final ArticleNounRepository anrepo;
 	private final HashtagRepository hrepo;
+
 	private final HashArticleLInker halrepo;
+
 	private final ImageManager imageManager;
 
 	@Override
@@ -60,7 +62,7 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<ArticleDTO> readListByMenu(Pageable request, Integer menuId) {
 		return arepo.findAllEntityGraphByMenu(request, Menu.values()[menuId]).stream().map(v->toDTO(v)).toList();
 		//    0: Diary, 1: Tip, 2:Question
-	}	
+	}
 
 	// =========================================================================================================================================================
 	// write
@@ -103,6 +105,7 @@ public class ArticleServiceImpl implements ArticleService {
 		CharSequence normalized = OpenKoreanTextProcessorJava.normalize(string);
 		Seq<KoreanTokenizer.KoreanToken> tokens = OpenKoreanTextProcessorJava.tokenize(normalized);
 		List<KoreanPhraseExtractor.KoreanPhrase> phrases = OpenKoreanTextProcessorJava.extractPhrases(tokens, true, true);
+
 		if(phrases.size()!=0){
 			return phrases.stream().map(v -> v.text()).toList();
 		}else{
