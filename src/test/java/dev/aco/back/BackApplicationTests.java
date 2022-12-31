@@ -11,6 +11,9 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
+import org.openkoreantext.processor.OpenKoreanTextProcessorJava;
+import org.openkoreantext.processor.phrase_extractor.KoreanPhraseExtractor;
+import org.openkoreantext.processor.tokenizer.KoreanTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import dev.aco.back.DTO.Article.LikeDTO;
 import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.ArticleImage;
+import dev.aco.back.Entity.Article.ArticleNoun;
 import dev.aco.back.Entity.Article.Hashtag;
 import dev.aco.back.Entity.Article.ArticleLike;
 import dev.aco.back.Entity.Article.Recommend;
@@ -33,6 +37,7 @@ import dev.aco.back.Entity.Report.ArticleReport;
 import dev.aco.back.Entity.User.Member;
 import dev.aco.back.Entity.Visitor.Visitor;
 import dev.aco.back.Repository.ArticleImageRepository;
+import dev.aco.back.Repository.ArticleNounRepository;
 import dev.aco.back.Repository.ArticleReportRepository;
 import dev.aco.back.Repository.ArticleRepository;
 import dev.aco.back.Repository.HashtagRepository;
@@ -46,6 +51,7 @@ import dev.aco.back.VO.pageVO;
 import dev.aco.back.service.ArticleService.ArticleLikeService;
 import dev.aco.back.service.ArticleService.ArticleService;
 import lombok.extern.log4j.Log4j2;
+import scala.collection.Seq;
 
 @SpringBootTest
 @Log4j2
@@ -71,6 +77,8 @@ class BackApplicationTests {
 	private ArticleImageRepository airepo;
 	@Autowired
 	private LikeRepository lrepo;
+  @Autowired
+	private ArticleNounRepository anrepo;
 
 	@Autowired
 	private PasswordEncoder pEncoder;
@@ -201,7 +209,22 @@ class BackApplicationTests {
 								.replyGroup(f).replySort(0L).build());
 			});
 
+			CharSequence normalized = OpenKoreanTextProcessorJava.normalize("가나다라 안녕 테스트야 test 한다");
+			Seq<KoreanTokenizer.KoreanToken> tokens = OpenKoreanTextProcessorJava.tokenize(normalized);
+			List<KoreanPhraseExtractor.KoreanPhrase> phrases = OpenKoreanTextProcessorJava.extractPhrases(tokens, true, true);
+					phrases.forEach(c->anrepo.save(ArticleNoun.builder().article(article).noun(c.text()).build()));
+
 		});
 
 	}
+
+	@Test
+	void nounTest(){
+		String text = "test 가나다라마바사 안녕";
+		CharSequence normalized = OpenKoreanTextProcessorJava.normalize(text);
+		Seq<KoreanTokenizer.KoreanToken> tokens = OpenKoreanTextProcessorJava.tokenize(normalized);
+		List<KoreanPhraseExtractor.KoreanPhrase> phrases = OpenKoreanTextProcessorJava.extractPhrases(tokens, true, true);
+		phrases.stream().map(v->v.text()).toList().forEach(v->log.info(v));
+	}
+
 }

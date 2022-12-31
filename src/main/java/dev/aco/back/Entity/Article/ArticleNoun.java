@@ -1,7 +1,6 @@
-package dev.aco.back.Entity.Linker;
+package dev.aco.back.Entity.Article;
 
-import dev.aco.back.Entity.Article.Article;
-import dev.aco.back.Entity.Article.Hashtag;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,16 +14,17 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleHashtag {
+@Builder
+public class ArticleNoun {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long hashLinkerId;
+    private Long articleNounId;
 
-    @ManyToOne
-    private Article article;
+    @Column
+    private String noun;
+
     @ManyToOne(fetch = FetchType.EAGER)
-    private Hashtag hashtag;
+    private Article article;
 }
