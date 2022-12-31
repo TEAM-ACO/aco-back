@@ -2,6 +2,7 @@ package dev.aco.back.service.MemberService;
 
 import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.Entity.User.Member;
+import dev.aco.back.VO.ChangeFindPasswordVO;
 import dev.aco.back.VO.ChangeNicknameVO;
 // import dev.aco.back.VO.SetNicknameVO;
 import dev.aco.back.VO.ChangePasswordVO;
@@ -16,6 +17,8 @@ public interface MemberSettingService {
   Boolean changeNickname(ChangeNicknameVO vo);
 
   Boolean changeUserImg(ChangeUserImgVO vo);
+
+  Boolean changeFindPassword(ChangeFindPasswordVO vo);
 
   default MemberDTO entityToDTO(Member entity) {
     MemberDTO dto = MemberDTO.builder()

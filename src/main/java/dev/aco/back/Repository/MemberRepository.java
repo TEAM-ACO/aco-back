@@ -41,6 +41,12 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("UPDATE Member m set m.nickname =:nickname where m.memberId=:memberId")
     void changeNicknamebyMemberId(Long memberId, String nickname);
 
+    // --------------------Find Password--------------------------
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Member mb set mb.password =:password where mb.email=:email")
+    Long changeFindPassbyEmail(String email, String password);
+
     // --------------------User Image-----------------------------
     @Query("select userimg from Member m where m.memberId =:memberId")
     Optional<String> getUserImgByMemberId(Long memberId);

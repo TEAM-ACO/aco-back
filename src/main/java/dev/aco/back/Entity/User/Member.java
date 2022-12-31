@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import dev.aco.back.Entity.Article.Article;
+import dev.aco.back.Entity.Article.ArticleLike;
 import dev.aco.back.Entity.Article.Recommend;
 import dev.aco.back.Entity.Article.Reply;
 import dev.aco.back.Entity.Enum.Roles;
@@ -92,5 +93,9 @@ public class Member extends DateEntity {
     @Builder.Default
     @OneToMany(mappedBy = "recommender", fetch = FetchType.LAZY, orphanRemoval = false)
     private List<Recommend> recommends = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "liker", fetch = FetchType.LAZY, orphanRemoval = false)
+    private List<ArticleLike> liker = new ArrayList<>();
 
 }

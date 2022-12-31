@@ -9,6 +9,7 @@ import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.Entity.User.Member;
 import dev.aco.back.Repository.MemberRepository;
 import dev.aco.back.Utils.Image.ImageManager;
+import dev.aco.back.VO.ChangeFindPasswordVO;
 import dev.aco.back.VO.ChangeNicknameVO;
 // import dev.aco.back.VO.MemberVO;
 // import dev.aco.back.VO.SetNicknameVO;
@@ -56,5 +57,12 @@ public class MemberSettingServiceImpl implements MemberSettingService {
       imgManager.ImgUpload(vo.getFile());
     }
     return true;
+  }
+
+  @Override
+  public Boolean changeFindPassword(ChangeFindPasswordVO vo) {
+    // Optional<Member> result = mrepo.findByEmail(vo.getEmail());
+      mrepo.changeFindPassbyEmail(vo.getEmail(), encoder.encode(vo.getUpassword()));
+      return true;
   }
 }
