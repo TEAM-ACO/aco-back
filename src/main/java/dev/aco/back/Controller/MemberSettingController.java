@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.VO.MemberVO;
+import dev.aco.back.VO.ChangeFindPasswordVO;
 import dev.aco.back.VO.ChangeNicknameVO;
 import dev.aco.back.VO.ChangePasswordVO;
 import dev.aco.back.VO.ChangeUserImgVO;
@@ -46,6 +47,12 @@ public class MemberSettingController {
   public ResponseEntity<Boolean> changeUserImg(@RequestBody ChangeUserImgVO vo) {
     log.info(vo);
     return new ResponseEntity<>(service.changeUserImg(vo), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/changefindpassword", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Boolean> changeFindPassword(@RequestBody ChangeFindPasswordVO vo) {
+    log.info(vo);
+    return new ResponseEntity<>(service.changeFindPassword(vo), HttpStatus.OK);
   }
 
 }

@@ -38,6 +38,7 @@ public class MemberController {
     }
     @PostMapping(value = "/signup/emailcheck")
     public ResponseEntity<Boolean> emailcheck(@RequestBody MemberDTO dto){
+        log.info("======================"+dto.getEmail());
         return new ResponseEntity<Boolean>(mser.emailChecking(dto), HttpStatus.OK);
     }
 

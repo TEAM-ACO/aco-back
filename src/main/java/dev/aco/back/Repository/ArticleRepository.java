@@ -16,6 +16,9 @@ import dev.aco.back.Entity.Enum.Menu;
 
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
+    List<Article> findAll();
+    Article findByArticleId(Long articleId);
+
     @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member"})
     @Query(value = "SELECT att FROM Article att", countQuery = "SELECT count(att) FROM Article att")
     Page<Article> findAllEntityGraph(Pageable pageable);
