@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-// import java.util.function.Function;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -163,6 +163,33 @@ class BackApplicationTests {
     //     });
 
     // }
+
+	@Test
+    void generateBunchofArticle() {
+        Member member = Member.builder().memberId(1L).build();
+        IntStream.range(2, 30).forEach(v -> {
+
+            Article article = arepo.saveAndFlush(Article
+                                            .builder()
+                                            .articleId(v*1L)
+                                            .articleContext((String.valueOf(v) + "test").getBytes())
+                                            .menu(Menu.Diary)
+                                            .member(member)
+                                            .build());
+
+            LongStream.range(0, 11).forEach(f -> {
+                rrepo
+                        .save(Reply
+                                .builder()
+                                .member(member)
+                                .article(article)
+                                .replyContext(article.getArticleId()+"번 글의 댓글"+f)
+                                .replyGroup(f).replySort(0L).build());
+            });
+
+        });
+
+    }
 
 	@Test
 	void testList() {

@@ -73,6 +73,9 @@ public class Article extends DateEntity {
     private Set<ArticleImage> articleImages = new LinkedHashSet<>();
 
     @Builder.Default
+    // mappedBy - 양방향 연관관계, orphanRemoval=true -기존 NULL처리된 자식(연결된 점이 없는 객체)을 DELETE
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<ArticleLike> liker = new ArrayList<>();
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<ArticleNoun> nouns = new LinkedHashSet<>();
 
@@ -80,6 +83,7 @@ public class Article extends DateEntity {
     // mappedBy - 양방향 연관관계, orphanRemoval=true -기존 NULL처리된 자식(연결된 점이 없는 객체)을 DELETE
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<ArticleLike> liker = new LinkedHashSet<>();
+
 
 
     public String updateArticleContextToString(byte[] byteString) {
