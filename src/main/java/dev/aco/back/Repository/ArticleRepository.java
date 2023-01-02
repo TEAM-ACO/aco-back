@@ -19,7 +19,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     // List<Article> findAll();
     // Article findByArticleId(Long articleId);
 
-    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "hashLinker.hashtag"})
+    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "hashLinker.hashtag", "liker"})
     Page<Article> findAll(Pageable pageable);
     
     List<Article> findAll();
@@ -27,19 +27,19 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 
 
-    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member"})
+    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "liker", "hashLinker.hashtag"})
     @Query(value = "SELECT att FROM Article att", countQuery = "SELECT count(att) FROM Article att")
     Page<Article> findAllEntityGraph(Pageable pageable);
 
-    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "hashLinker.hashtag"})
+    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "hashLinker.hashtag", "liker"})
     Page<Article> findAllByArticleIdIn(Pageable pageable, List<Long> ids);
 
-    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member"})
+    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "liker"})
     @Query(value = "SELECT att FROM Article att where att.member.memberId=:memberId", 
            countQuery = "SELECT att FROM Article att where att.member.memberId=:memberId")
     Page<Article> findAllEntityGraphByMemberId(Pageable pageable, Long memberId);
 
-    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member"})
+    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "liker"})
     @Query(value = "SELECT att FROM Article att where att.menu=:menu", 
     countQuery = "SELECT att FROM Article att where att.menu=:menu")
     Page<Article> findAllEntityGraphByMenu(Pageable pageable, Menu menu);
