@@ -49,7 +49,6 @@ public class SecurityConfig {
         // 기본적 auth전략, 모든 하위주소를 허용하나
         // admin 주소일 경우 Admin주소가 없으면 요청을 거부합니다
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/admin/**").hasRole(Roles.Admin.toString());
             auth.anyRequest().permitAll();
         });
 

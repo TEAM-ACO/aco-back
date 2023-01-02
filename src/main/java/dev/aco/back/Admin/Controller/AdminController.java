@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,25 +38,25 @@ public class AdminController {
                 adser.adminMainboardInformation(Optional.ofNullable(week).orElse(1)), HttpStatus.OK);
     }
 
-    @GetMapping(value="article")
+    @PostMapping(value="article")
     public ResponseEntity<List<ArticleDTO>> getArticleList(@RequestBody pageVO vo){
         Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "articleId"));
         return new ResponseEntity<>(adser.adminArticleList(pageable), HttpStatus.OK);
     }
 
-    @GetMapping(value="member")
+    @PostMapping(value="member")
     public ResponseEntity<List<MemberDTO>> getMeberList(@RequestBody pageVO vo){
         Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "memberId"));
         return new ResponseEntity<>(adser.adminMemberList(pageable), HttpStatus.OK);
     }
 
-    @GetMapping(value="articlereport")
+    @PostMapping(value="articlereport")
     public ResponseEntity<List<ArticleReportDTO>> getReportedArticleList(@RequestBody pageVO vo){
         Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "articleReportId"));
         return new ResponseEntity<>(adser.adminArticleReportList(pageable), HttpStatus.OK);
     }
 
-    @GetMapping(value="memberreport")
+    @PostMapping(value="memberreport")
     public ResponseEntity<List<MemberReportDTO>> getReportedMemberList(@RequestBody pageVO vo){
         Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "memberReportId"));
         return new ResponseEntity<>(adser.adminMemberReportList(pageable), HttpStatus.OK);
