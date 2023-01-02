@@ -28,8 +28,8 @@ public class ReplyServiceImpl implements ReplyService {
                         .replyContext(dto.getReplyContext())
                         .replyGroup(dto.getReplyGroup())
                         .replySort(dto.getReplySort())
-                        .article(Article.builder().articleId(dto.getArticle().getArticleId())
-                                .member(Member.builder().memberId(dto.getMember().getMemberId()).build()).build())
+                        .article(Article.builder().articleId(dto.getArticle().getArticleId()).build())
+                        .member(Member.builder().memberId(dto.getMember().getMemberId()).build())
                         .build())
                 .getReplyId();
         return replyNumber > 0 ? true : false;
@@ -52,7 +52,9 @@ public class ReplyServiceImpl implements ReplyService {
                         )
 				.article(ArticleDTO.builder().articleId(articleId).build())
 				.totalCount(result.getTotalElements())
+                .date(v.getCreatedDateTime())
                 .build();
             }).toList();
+            
     }
 }
