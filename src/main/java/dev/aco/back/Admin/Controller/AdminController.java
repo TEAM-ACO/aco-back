@@ -58,7 +58,7 @@ public class AdminController {
 
     @PostMapping(value="memberreport")
     public ResponseEntity<List<MemberReportDTO>> getReportedMemberList(@RequestBody pageVO vo){
-        Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "memberReportId"));
+        Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "userReportId"));
         return new ResponseEntity<>(adser.adminMemberReportList(pageable), HttpStatus.OK);
     }
 
