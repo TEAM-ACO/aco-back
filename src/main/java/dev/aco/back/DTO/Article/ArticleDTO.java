@@ -1,5 +1,6 @@
 package dev.aco.back.DTO.Article;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartRequest;
@@ -31,4 +32,5 @@ public class ArticleDTO {
     private List<String> articleImagesNames;
     private List<MultipartRequest> articleImages;
     private Integer replyCount;
+    private LocalDateTime date;
 }

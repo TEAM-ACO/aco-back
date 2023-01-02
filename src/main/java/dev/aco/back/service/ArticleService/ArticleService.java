@@ -44,6 +44,7 @@ public interface ArticleService {
                         .reported(entity.getReported().size())
                         .visitors(entity.getVisitors().size())
                         .articleImagesNames(entity.getArticleImages().stream().map(i -> i.getImg()).toList())
+                        .date(entity.getCreatedDateTime())
                         .build();
     }
 }
