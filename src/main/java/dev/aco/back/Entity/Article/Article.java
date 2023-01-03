@@ -45,13 +45,12 @@ public class Article extends DateEntity {
     private Member member;
 
     @Builder.Default
-    @OneToMany(mappedBy = "article", fetch = FetchType.EAGER, orphanRemoval = false)
-
+    @OneToMany(mappedBy = "article", fetch = FetchType.EAGER, orphanRemoval = true)
     @OrderBy("hashLinkerId asc")
     private Set<ArticleHashtag> hashLinker = new LinkedHashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Visitor> visitors = new LinkedHashSet<>();
 
     @Builder.Default
