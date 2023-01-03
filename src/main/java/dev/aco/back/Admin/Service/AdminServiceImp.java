@@ -105,7 +105,7 @@ public class AdminServiceImp implements AdminService {
 
     @Override
     public List<MemberDTO> adminMemberList(Pageable pageable) {
-        return mrepo.findAll(pageable).stream().map(v -> mser.entityToDTO(v)).toList();
+        return mrepo.findAll(pageable).stream().map(v -> {MemberDTO dto = mser.entityToDTO(v); dto.setMemberId(v.getMemberId()); return dto;}).toList();
     }
 
     @Override
