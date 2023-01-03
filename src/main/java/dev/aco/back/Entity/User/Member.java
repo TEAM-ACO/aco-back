@@ -67,11 +67,11 @@ public class Member extends DateEntity {
     private String userimg;
 
     @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Article> articles = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Reply> reply = new ArrayList<>();
 
     @Builder.Default
@@ -87,7 +87,7 @@ public class Member extends DateEntity {
     private List<MemberReport> reported = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MemberAchievement> achieveLinker = new ArrayList<>();
 
     @Builder.Default
@@ -95,7 +95,7 @@ public class Member extends DateEntity {
     private List<Recommend> recommends = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "liker", fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "liker", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ArticleLike> liker = new ArrayList<>();
 
 }
