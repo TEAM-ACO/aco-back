@@ -31,7 +31,7 @@ public class Hashtag {
     @OneToMany(mappedBy = "hashtag", fetch = FetchType.EAGER, orphanRemoval = false)
     private List<ArticleHashtag> hashLinker = new ArrayList<>();
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String tag;
 
     @ManyToOne
