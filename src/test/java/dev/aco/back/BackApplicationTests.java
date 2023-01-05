@@ -124,7 +124,7 @@ class BackApplicationTests {
 		List<Hashtag> list = LongStream.range(1, 11).mapToObj(v -> {
 			rrepo.save(Reply.builder().member(member).article(article).replyContext("test" + v).replyGroup(v)
 					.replySort(0L).build());
-			airepo.save(ArticleImage.builder().article(article).img("basic" + v + ".png").build());
+			airepo.save(ArticleImage.builder().article(article).img("basic.png").build());
 			return hrepo.save(Hashtag.builder().tag("test" + v).build());
 		}).toList();
 
@@ -199,7 +199,7 @@ class BackApplicationTests {
 	@Test
 	void generateBunchofArticle() {
 		Member member = Member.builder().memberId(1L).build();
-		IntStream.range(2, 30).forEach(v -> {
+		IntStream.range(2, 5).forEach(v -> {
 
 			Article article = arepo.saveAndFlush(Article
 											.builder()
@@ -209,7 +209,7 @@ class BackApplicationTests {
 											.member(member)
 											.build());
 
-			LongStream.range(0, 11).forEach(f -> {
+			LongStream.range(0, 5).forEach(f -> {
 				rrepo
 						.save(Reply
 								.builder()
