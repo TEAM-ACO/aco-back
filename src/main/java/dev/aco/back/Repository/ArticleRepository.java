@@ -40,6 +40,22 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Page<Article> findAllEntityGraph(Pageable pageable);
 
     @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "hashLinker.hashtag", "liker"})
+    @Query(value = """ 
+        SELECT DISTINCT att
+        FROM Article att 
+            OUTER JOIN ArticleHashtag aht on aht.article.articleId = aht.article.articleId 
+            OUTER JOIN Hashtag htt on aht.hashtag.hashtagId = htt.hashtagId 
+            OUTER JOIN ArticleImage img on att.articleId = img.article.articleId 
+            OUTER JOIN Member mb on att.member.memberId = mb.memberId 
+            OUTER JOIN ArticleLike alk on att.articleId = alk.article.articleId
+            OUTER JOIN Visitor vtr on att.articleId = vtr.article.articleId
+        WHERE 
+            att.articleId in (:ids)
+        """, countQuery = """ 
+            SELECT DISTINCT att from Article att
+            WHERE 
+            att.articleId in (:ids)
+            """)
     Page<Article> findAllByArticleIdIn(Pageable pageable, List<Long> ids);
    
     @Query(value = """
