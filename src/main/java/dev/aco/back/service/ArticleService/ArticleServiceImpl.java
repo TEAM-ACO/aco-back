@@ -10,7 +10,7 @@ import org.openkoreantext.processor.phrase_extractor.KoreanPhraseExtractor;
 import org.openkoreantext.processor.tokenizer.KoreanTokenizer;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import dev.aco.back.DTO.Article.ArticleDTO;
 import dev.aco.back.Entity.Article.Article;
@@ -18,6 +18,7 @@ import dev.aco.back.Entity.Article.ArticleImage;
 import dev.aco.back.Entity.Article.ArticleNoun;
 import dev.aco.back.Entity.Article.Hashtag;
 import dev.aco.back.Entity.Enum.Menu;
+import dev.aco.back.Entity.Linker.ArticleHashtag;
 import dev.aco.back.Repository.ArticleImageRepository;
 import dev.aco.back.Repository.ArticleNounRepository;
 import dev.aco.back.Repository.ArticleRepository;
@@ -69,34 +70,28 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	@Transactional
 	public Long write(ArticleDTO dto) {
-		Optional<List<MultipartRequest>> imgs = Optional.ofNullable(dto.getArticleImages());
-		Optional<List<String>> tags = Optional.ofNullable(dto.getTags());
+		Optional<List<MultipartFile>> imgs = Optional.ofNullable(dto.getArticleImages());
 		Long articleId = arepo.save(dtoToEntity(dto)).getArticleId();
 		Article article = dtoToEntity(dto);
-
-		tags.ifPresent((hashs) -> {
-			hashs.forEach((hash) -> {
-				hrepo.save(Hashtag.builder().article(Article.builder().articleId(articleId).build())
-						.tag(hash).build());
-			});
-		});
-
+		List<String> phrases = nounExtractor(dto.getArticleContext());
+		List<Hashtag> tags = dto.getTags()
+								.stream()
+								.map(v-> hrepo.findByTag(v).orElse(hrepo.save(Hashtag.builder().tag(v).build())))
+									.toList();
+									
 		imgs.ifPresentOrElse((images) -> {
 			images.forEach((image) -> {
-				imageManager.ImgUpload(image);
 				String uploadedImgStr = imageManager.ImgUpload(image).toString();
-				// 이미지 업로드후 리턴된 이미지 이름이 여기에 들어가야 할 것인데 이러면 현석씨가 말씀하신대로
-				// imgManager 에서 String 이름을 반환하는 매서드를 만들어야하나?
 				airepo.save(ArticleImage.builder().article(article).img(uploadedImgStr).build());
 			});
 		}, () -> {
 			airepo.save(ArticleImage.builder().article(Article.builder().articleId(articleId).build())
-					.img("basic.png").build());
+			.img("basic.png").build());
 		});
-
+		
 		Article result = arepo.save(article);
 
-		List<String> phrases = nounExtractor(dto.getArticleContext());
+		tags.forEach(v->halrepo.save(ArticleHashtag.builder().article(result).hashtag(v).build()));
 		phrases.forEach(v -> anrepo.save(ArticleNoun.builder().article(result).noun(v).build()));
 		return articleId;
 	}
