@@ -27,8 +27,14 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 
 
-    @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "liker", "hashLinker.hashtag"})
-    @Query(value = "SELECT att FROM Article att", countQuery = "SELECT count(att) FROM Article att")
+    @EntityGraph(attributePaths = {"visitors", "recomends", "reported", "member", "liker"})
+    @Query(value = """ 
+        SELECT DISTINCT att 
+        FROM Article att 
+            INNER JOIN ArticleHashtag aht on aht.article.articleId = aht.article.articleId 
+            INNER JOIN Hashtag htt on aht.hashtag.hashtagId = htt.hashtagId
+            INNER JOIN ArticleImage img on att.articleId = img.article.articleId
+    """, countQuery = "SELECT count(att) FROM Article att")
     Page<Article> findAllEntityGraph(Pageable pageable);
 
     @EntityGraph(attributePaths = {"hashLinker", "visitors", "recomends", "reported", "articleImages", "member", "hashLinker.hashtag", "liker"})
