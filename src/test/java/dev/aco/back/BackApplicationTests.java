@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import dev.aco.back.DTO.Article.LikeDTO;
@@ -189,12 +187,6 @@ class BackApplicationTests {
 			.liked(true).liker(1L).article(1L).build()));
 	}
 
-	void testGetListEntityGraph() {
-		Pageable pageable = PageRequest.of(0, 5, Sort.by(Direction.DESC, "articleId"));
-		arepo.findAllEntityGraph(pageable).forEach(v -> v.getReplys().forEach(f -> log.info(f.getReplyContext())));
-		arepo.findAllEntityGraph(pageable)
-				.forEach(v -> log.info(v.updateArticleContextToString(v.getArticleContext())));
-	}
 
 	@Test
 	void generateBunchofArticle() {

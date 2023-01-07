@@ -38,8 +38,6 @@ public interface ArticleService {
                                 .nickname(entity.getMember().getNickname())
                                 .email(entity.getMember().getEmail()).build())
                         .tags(entity.getHashLinker().stream().map(v->v.getHashtag().getTag()).toList())
-                        .recomends(entity.getRecomends().stream().map(r -> {
-                            return r.isRecomended() ? 1 : -1;}).mapToInt(Integer::intValue).sum())
                         .reported(entity.getReported().size())
                         .visitors(entity.getVisitors().size())
                         .likes(entity.getLiker().size())
