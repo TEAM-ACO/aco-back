@@ -71,7 +71,6 @@ public class ArticleServiceImpl implements ArticleService {
 	@Transactional
 	public Long write(ArticleDTO dto) {
 		Optional<List<MultipartFile>> imgs = Optional.ofNullable(dto.getArticleImages());
-		Long articleId = arepo.save(dtoToEntity(dto)).getArticleId();
 		Article article = dtoToEntity(dto);
 		List<String> phrases = nounExtractor(dto.getArticleContext());
 		List<Hashtag> tags = dto.getTags()
@@ -79,21 +78,23 @@ public class ArticleServiceImpl implements ArticleService {
 								.map(v-> hrepo.findByTag(v).orElse(hrepo.save(Hashtag.builder().tag(v).build())))
 									.toList();
 									
+
+		
+		Article result = arepo.save(article);
+
 		imgs.ifPresentOrElse((images) -> {
 			images.forEach((image) -> {
 				String uploadedImgStr = imageManager.ImgUpload(image).toString();
 				airepo.save(ArticleImage.builder().article(article).img(uploadedImgStr).build());
 			});
 		}, () -> {
-			airepo.save(ArticleImage.builder().article(Article.builder().articleId(articleId).build())
+			airepo.save(ArticleImage.builder().article(article)
 			.img("basic.png").build());
 		});
-		
-		Article result = arepo.save(article);
 
 		tags.forEach(v->halrepo.save(ArticleHashtag.builder().article(result).hashtag(v).build()));
 		phrases.forEach(v -> anrepo.save(ArticleNoun.builder().article(result).noun(v).build()));
-		return articleId;
+		return result.getArticleId();
 	}
 
 	private List<String> nounExtractor(String string) {

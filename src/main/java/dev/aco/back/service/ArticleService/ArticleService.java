@@ -42,6 +42,7 @@ public interface ArticleService {
                             return r.isRecomended() ? 1 : -1;}).mapToInt(Integer::intValue).sum())
                         .reported(entity.getReported().size())
                         .visitors(entity.getVisitors().size())
+                        .likes(entity.getLiker().size())
                         .articleImagesNames(entity.getArticleImages().stream().map(i -> i.getImg()).toList())
                         .date(entity.getCreatedDateTime())
                         .build();
