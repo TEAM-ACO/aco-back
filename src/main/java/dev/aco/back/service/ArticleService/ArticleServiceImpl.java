@@ -43,12 +43,12 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public List<ArticleDTO> readList(Pageable pageable) {
-		return arepo.findAllEntityGraph(pageable).stream().map(v -> toDTO(v)).toList();
+		return arepo.findAll(pageable).stream().map(v -> toDTO(v)).toList();
 	}
 
 	@Override
 	public List<ArticleDTO> readListByMemberId(Pageable request, Long memberId) {
-		return arepo.findAllEntityGraphByMemberId(request, memberId).stream().map(v -> toDTO(v)).toList();
+		return arepo.findAllByMemberMemberId(request, memberId).stream().map(v -> toDTO(v)).toList();
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 	@Override
 	public List<ArticleDTO> readListByMenu(Pageable request, Integer menuId) {
-		return arepo.findAllEntityGraphByMenu(request, Menu.values()[menuId]).stream().map(v->toDTO(v)).toList();
+		return arepo.findAllByMenuEquals(request, Menu.values()[menuId]).stream().map(v->toDTO(v)).toList();
 		//    0: Diary, 1: Tip, 2:Question
 	}
 
