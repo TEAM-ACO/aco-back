@@ -31,7 +31,7 @@ public class ArticleController {
     private final ArticleService aser;
     private final ReplyService rser;
 
-    @PostMapping(value = "list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ArticleDTO>> getArticleList(@RequestBody pageVO vo) {
         Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "articleId"));
         return new ResponseEntity<>(aser.readList(pageable), HttpStatus.OK);
@@ -46,7 +46,7 @@ public class ArticleController {
     @PostMapping(value = "list/{memberid}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ArticleDTO>> getArticleListByMemberId(@RequestBody pageVO vo, @PathVariable Long memberid) {
         log.info(vo);
-        Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize()*2, Sort.by(Direction.DESC, "articleId"));
+        Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize(), Sort.by(Direction.DESC, "articleId"));
         return new ResponseEntity<>(aser.readListByMemberId(pageable, memberid), HttpStatus.OK);
     }
 
@@ -57,8 +57,8 @@ public class ArticleController {
         return new ResponseEntity<>(aser.readListByKeywords(pageable, keywords), HttpStatus.OK);
     }
 
-    @PostMapping(value = "write", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Long> write(@RequestBody ArticleDTO dto) {
+    @PostMapping(value = "write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Long> write(ArticleDTO dto) {
         return new ResponseEntity<>(aser.write(dto), HttpStatus.OK);
     }
 

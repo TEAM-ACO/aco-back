@@ -1,6 +1,6 @@
 package dev.aco.back.service.ArticleService;
 
-import java.util.HashMap;
+
 
 import dev.aco.back.DTO.Article.LikeDTO;
 import dev.aco.back.Entity.Article.Article;
@@ -8,8 +8,6 @@ import dev.aco.back.Entity.Article.ArticleLike;
 import dev.aco.back.Entity.User.Member;
 
 public interface ArticleLikeService {
-  // HashMap<String, Object> getListArticleId(Long articleId);
-
   Boolean likeUser(LikeDTO dto);
 
   Boolean likeChecking(LikeDTO dto);

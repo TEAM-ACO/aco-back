@@ -1,5 +1,7 @@
 package dev.aco.back.DTO.Article;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import dev.aco.back.DTO.User.MemberDTO;
@@ -22,4 +24,5 @@ public class ReplyDTO {
     private MemberDTO member;
     private ArticleDTO article;
     private Long totalCount;
+    private LocalDateTime date;
 }

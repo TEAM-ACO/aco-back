@@ -13,8 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import dev.aco.back.Entity.Enum.Roles;
+// import dev.aco.back.Entity.Enum.Roles;
 import dev.aco.back.Security.Filter.CustomLoginFilter;
+import dev.aco.back.Security.Filter.CustomUserFilter;
 import dev.aco.back.Security.Handler.CustomSuccessHandler;
 import dev.aco.back.Security.Service.CustomLoginService;
 import dev.aco.back.Security.Service.CustomOAuth2Service;
@@ -32,6 +33,7 @@ public class SecurityConfig {
     private final CustomOAuth2Service cOAuth2Service;
     private final CustomSuccessHandler customSuccessHandler;
     private final CustomLoginService customLoginService;
+    private final CustomUserFilter customUserFilter;
 
     // https://www.youtube.com/watch?v=TDOHbK39Oxg
     // https://github.com/B-HS/BBlog/blob/main/bblogback/src/main/java/dev/hyns/bblogback/Configs/SecurityConfig.java
@@ -49,9 +51,9 @@ public class SecurityConfig {
         // 기본적 auth전략, 모든 하위주소를 허용하나
         // admin 주소일 경우 Admin주소가 없으면 요청을 거부합니다
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/admin/**").hasRole(Roles.Admin.toString());
             auth.anyRequest().permitAll();
         });
+        http.addFilterBefore(customUserFilter, UsernamePasswordAuthenticationFilter.class);
 
         //// 사이트로그인
         /// filterchain의 로그인 과정을 포함하는 UsernamePasswordAuthenticationFilter를 지정한 필터로
@@ -117,5 +119,6 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }

@@ -4,7 +4,6 @@ import java.nio.charset.Charset;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-
 import dev.aco.back.Entity.Enum.Menu;
 import dev.aco.back.Entity.Linker.ArticleHashtag;
 import dev.aco.back.Entity.Report.ArticleReport;
@@ -40,23 +39,17 @@ public class Article extends DateEntity {
 
     @Column
     private Menu menu;
-
     @ManyToOne
     private Member member;
 
     @Builder.Default
-    @OneToMany(mappedBy = "article", fetch = FetchType.EAGER, orphanRemoval = false)
-
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
     @OrderBy("hashLinkerId asc")
     private Set<ArticleHashtag> hashLinker = new LinkedHashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = false)
-    private Set<Visitor> visitors = new LinkedHashSet<>();
-
-    @Builder.Default
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<Recommend> recomends = new LinkedHashSet<>();
+    private Set<Visitor> visitors = new LinkedHashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
@@ -72,6 +65,8 @@ public class Article extends DateEntity {
     @OrderBy("articleImageId asc")
     private Set<ArticleImage> articleImages = new LinkedHashSet<>();
 
+
+    @Builder.Default
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<ArticleNoun> nouns = new LinkedHashSet<>();
 

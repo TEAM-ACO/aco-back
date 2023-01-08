@@ -1,6 +1,6 @@
 package dev.aco.back.VO;
 
-import org.springframework.web.multipart.MultipartRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -8,5 +8,5 @@ import lombok.Data;
 public class ChangeUserImgVO {
   Long memberId;
   String userimg;
-  MultipartRequest file;
+  MultipartFile file;
 }

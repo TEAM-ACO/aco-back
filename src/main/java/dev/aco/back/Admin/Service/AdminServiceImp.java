@@ -44,11 +44,12 @@ public class AdminServiceImp implements AdminService {
         HashMap<String, Object> result = new HashMap<>();
         LocalDate currentDay = LocalDate.now();
         currentDay.minusDays(7 * weeksAgo);
-        Pageable pageable = PageRequest.of(0, 5, Sort.by(Direction.DESC, "articleId"));
+        Pageable pageableArticle = PageRequest.of(0, 5, Sort.by(Direction.DESC, "articleId"));
+        Pageable pageableMember = PageRequest.of(0, 5, Sort.by(Direction.DESC, "memberId"));
         result.put("visitorInfo",
                 weekVisitorInformation(vrepo.findAllByCreatedDateTimeGreaterThan(currentDay.atStartOfDay())));
-        result.put("recentArticle", recentArticleList(arepo.findAll(pageable).getContent()));
-        result.put("recentMember", recentMemberList(mrepo.findAllRecentMember(pageable).getContent()));
+        result.put("recentArticle", recentArticleList(arepo.findAll(pageableArticle).getContent()));
+        result.put("recentMember", recentMemberList(mrepo.findAllRecentMember(pageableMember).getContent()));
         return result;
     }
 
@@ -104,7 +105,7 @@ public class AdminServiceImp implements AdminService {
 
     @Override
     public List<MemberDTO> adminMemberList(Pageable pageable) {
-        return mrepo.findAll(pageable).stream().map(v -> mser.entityToDTO(v)).toList();
+        return mrepo.findAll(pageable).stream().map(v -> {MemberDTO dto = mser.entityToDTO(v); dto.setMemberId(v.getMemberId()); return dto;}).toList();
     }
 
     @Override

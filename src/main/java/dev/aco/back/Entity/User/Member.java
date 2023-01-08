@@ -1,13 +1,12 @@
 package dev.aco.back.Entity.User;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.ArticleLike;
-import dev.aco.back.Entity.Article.Recommend;
 import dev.aco.back.Entity.Article.Reply;
 import dev.aco.back.Entity.Enum.Roles;
 import dev.aco.back.Entity.Linker.MemberAchievement;
@@ -67,11 +66,11 @@ public class Member extends DateEntity {
     private String userimg;
 
     @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Article> articles = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Reply> reply = new ArrayList<>();
 
     @Builder.Default
@@ -87,15 +86,11 @@ public class Member extends DateEntity {
     private List<MemberReport> reported = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MemberAchievement> achieveLinker = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "recommender", fetch = FetchType.LAZY, orphanRemoval = false)
-    private List<Recommend> recommends = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "liker", fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "liker", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ArticleLike> liker = new ArrayList<>();
 
 }

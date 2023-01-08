@@ -3,11 +3,7 @@ package dev.aco.back;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
@@ -19,22 +15,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import dev.aco.back.DTO.Article.LikeDTO;
 import dev.aco.back.Entity.Article.Article;
 import dev.aco.back.Entity.Article.ArticleImage;
+import dev.aco.back.Entity.Article.ArticleLike;
 import dev.aco.back.Entity.Article.ArticleNoun;
 import dev.aco.back.Entity.Article.Hashtag;
-import dev.aco.back.Entity.Article.ArticleLike;
-import dev.aco.back.Entity.Article.Recommend;
 import dev.aco.back.Entity.Article.Reply;
 import dev.aco.back.Entity.Enum.Menu;
 import dev.aco.back.Entity.Enum.Roles;
 import dev.aco.back.Entity.Linker.ArticleHashtag;
 import dev.aco.back.Entity.Report.ArticleReport;
+import dev.aco.back.Entity.Report.MemberReport;
 import dev.aco.back.Entity.User.Member;
 import dev.aco.back.Entity.Visitor.Visitor;
 import dev.aco.back.Repository.ArticleImageRepository;
@@ -43,8 +37,8 @@ import dev.aco.back.Repository.ArticleReportRepository;
 import dev.aco.back.Repository.ArticleRepository;
 import dev.aco.back.Repository.HashtagRepository;
 import dev.aco.back.Repository.LikeRepository;
+import dev.aco.back.Repository.MemberReportRepository;
 import dev.aco.back.Repository.MemberRepository;
-import dev.aco.back.Repository.RecommendRepository;
 import dev.aco.back.Repository.ReplyRepository;
 import dev.aco.back.Repository.VisitorRepository;
 import dev.aco.back.Repository.Linker.HashArticleLInker;
@@ -71,9 +65,9 @@ class BackApplicationTests {
 	@Autowired
 	private ReplyRepository rrepo;
 	@Autowired
-	private RecommendRepository rcrepo;
-	@Autowired
 	private ArticleReportRepository arrepo;
+	@Autowired
+	private MemberReportRepository mrrepo;
 	@Autowired
 	private ArticleImageRepository airepo;
 	@Autowired
@@ -107,6 +101,17 @@ class BackApplicationTests {
 				.userimg("basic.png")
 				.build());
 
+				Member membertwo = mrepo.save(Member.builder()
+				.email("2test@test.test")
+				.password(pEncoder.encode("1234"))
+				.nickname("2test")
+				.mobile("000000000")
+				.roleSet(roles)
+				.oauth(null)
+				.logged(true)
+				.userimg("basic.png")
+				.build());
+
 		Article article = arepo.save(Article
 				.builder()
 				.articleContext("test, test, test, test, test, test".getBytes())
@@ -117,7 +122,7 @@ class BackApplicationTests {
 		List<Hashtag> list = LongStream.range(1, 11).mapToObj(v -> {
 			rrepo.save(Reply.builder().member(member).article(article).replyContext("test" + v).replyGroup(v)
 					.replySort(0L).build());
-			airepo.save(ArticleImage.builder().article(article).img("basic" + v + ".png").build());
+			airepo.save(ArticleImage.builder().article(article).img("basic.png").build());
 			return hrepo.save(Hashtag.builder().tag("test" + v).build());
 		}).toList();
 
@@ -134,33 +139,8 @@ class BackApplicationTests {
 		arrepo.save(ArticleReport.builder().article(article).articleReportContext("test")
 				.articleReportTitle("testtitle").articlereporter(member).build());
 		lrepo.save(ArticleLike.builder().liked(true).liker(member).article(article).build());
-
+		mrrepo.save(MemberReport.builder().memberreporter(member).reported(membertwo).userReportContext("asdf").userReportTitle("asdf").build());
 	}
-
-	@Test
-    void generateBunchofArticle() {
-        Member member = Member.builder().memberId(1L).build();
-        IntStream.range(2, 30).forEach(v -> {
-
-            Article article = arepo.saveAndFlush(Article
-                                            .builder()
-                                            .articleId(v*1L)
-                                            .articleContext((String.valueOf(v) + "test").getBytes())
-                                            .menu(Menu.Diary)
-                                            .member(member)
-                                            .build());
-
-            LongStream.range(0, 11).forEach(f -> {
-                rrepo
-                        .save(Reply
-                                .builder()
-                                .member(member)
-                                .article(article)
-                                .replyContext(article.getArticleId()+"번 글의 댓글"+f)
-                                .replyGroup(f).replySort(0L).build());
-            });
-        });
-    }
 
 	@Test
 	void testList() {
@@ -180,11 +160,37 @@ class BackApplicationTests {
 			.liked(true).liker(1L).article(1L).build()));
 	}
 
-	void testGetListEntityGraph() {
-		Pageable pageable = PageRequest.of(0, 5, Sort.by(Direction.DESC, "articleId"));
-		arepo.findAllEntityGraph(pageable).forEach(v -> v.getReplys().forEach(f -> log.info(f.getReplyContext())));
-		arepo.findAllEntityGraph(pageable)
-				.forEach(v -> log.info(v.updateArticleContextToString(v.getArticleContext())));
+
+	@Test
+	void generateBunchofArticle() {
+		Member member = Member.builder().memberId(1L).build();
+		IntStream.range(2, 5).forEach(v -> {
+
+			Article article = arepo.saveAndFlush(Article
+											.builder()
+											.articleId(v*1L)
+											.articleContext((String.valueOf(v) + "test").getBytes())
+											.menu(Menu.Diary)
+											.member(member)
+											.build());
+
+			LongStream.range(0, 5).forEach(f -> {
+				rrepo
+						.save(Reply
+								.builder()
+								.member(member)
+								.article(article)
+								.replyContext(article.getArticleId()+"번 글의 댓글"+f)
+								.replyGroup(f).replySort(0L).build());
+			});
+
+			CharSequence normalized = OpenKoreanTextProcessorJava.normalize("가나다라 안녕 테스트야 test 한다");
+			Seq<KoreanTokenizer.KoreanToken> tokens = OpenKoreanTextProcessorJava.tokenize(normalized);
+			List<KoreanPhraseExtractor.KoreanPhrase> phrases = OpenKoreanTextProcessorJava.extractPhrases(tokens, true, true);
+					phrases.forEach(c->anrepo.save(ArticleNoun.builder().article(article).noun(c.text()).build()));
+
+		});
+
 	}
 
 	@Test

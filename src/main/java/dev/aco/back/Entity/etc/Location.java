@@ -1,12 +1,10 @@
-package dev.aco.back.Entity.Article;
+package dev.aco.back.Entity.etc;
 
-import dev.aco.back.Entity.User.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,17 +15,19 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Recommend {
+public class Location extends DateEntity{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long RecommendId;
+    private Long locationId;
 
     @Column
-    private boolean recomended;
+    private String locateName;
 
-    @ManyToOne
-    private Member recommender;
+    @Column
+    private Long latitude;
 
-    @ManyToOne
-    private Article article;
+    @Column
+    private Long longtitude;
+
 }
