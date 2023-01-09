@@ -15,4 +15,5 @@ public class MemberReportDTO {
     private String userReportContext;
     private Long targetUserId;
     private Long reporterUserId;
+    private Long totalCount;
 }

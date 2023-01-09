@@ -36,4 +36,5 @@ public class ArticleDTO {
     private locationDTO locationInfo;
     private Integer replyCount;
     private LocalDateTime date;
+    private Long totalCount;
 }

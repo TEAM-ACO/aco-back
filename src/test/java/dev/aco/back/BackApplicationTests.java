@@ -142,6 +142,33 @@ class BackApplicationTests {
 		mrrepo.save(MemberReport.builder().memberreporter(member).reported(membertwo).userReportContext("asdf").userReportTitle("asdf").build());
 	}
 
+	// @Test
+    // void generateBunchofArticle() {
+    //     Member member = Member.builder().memberId(1L).build();
+    //     IntStream.range(2, 30).forEach(v -> {
+
+    //         Article article = arepo.saveAndFlush(Article
+    //                                         .builder()
+    //                                         .articleId(v*1L)
+    //                                         .articleContext((String.valueOf(v) + "test").getBytes())
+    //                                         .menu(Menu.Diary)
+    //                                         .member(member)
+    //                                         .build());
+
+    //         LongStream.range(0, 11).forEach(f -> {
+    //             rrepo
+    //                     .save(Reply
+    //                             .builder()
+    //                             .member(member)
+    //                             .article(article)
+    //                             .replyContext(article.getArticleId()+"번 글의 댓글"+f)
+    //                             .replyGroup(f).replySort(0L).build());
+    //         });
+
+    //     });
+
+    // }
+
 	@Test
 	void testList() {
 		List<Object> listA = new ArrayList<Object>();

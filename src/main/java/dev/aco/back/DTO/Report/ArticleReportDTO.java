@@ -15,4 +15,5 @@ public class ArticleReportDTO {
     private String articleReportContext;
     private Long articlereporterId;
     private Long articleId;
+    private Long totalCount;
 }

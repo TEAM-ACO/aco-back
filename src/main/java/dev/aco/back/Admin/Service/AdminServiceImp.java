@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,6 +17,9 @@ import dev.aco.back.DTO.Report.ArticleReportDTO;
 import dev.aco.back.DTO.Report.MemberReportDTO;
 import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.Entity.Article.Article;
+import dev.aco.back.Entity.Report.ArticleReport;
+import dev.aco.back.Entity.Report.MemberReport;
+import dev.aco.back.Entity.User.Member;
 import dev.aco.back.Entity.Visitor.Visitor;
 import dev.aco.back.Repository.ArticleReportRepository;
 import dev.aco.back.Repository.ArticleRepository;
@@ -100,17 +104,20 @@ public class AdminServiceImp implements AdminService {
 
     @Override
     public List<ArticleDTO> adminArticleList(Pageable pageable) {
-        return arepo.findAll(pageable).stream().map(v -> aser.toDTO(v)).toList();
+        Page<Article> result = arepo.findAll(pageable);
+        return result.stream().map(v -> {ArticleDTO tmp = aser.toDTO(v); tmp.setTotalCount(result.getTotalElements()); return tmp;}).toList();
     }
 
     @Override
     public List<MemberDTO> adminMemberList(Pageable pageable) {
-        return mrepo.findAll(pageable).stream().map(v -> {MemberDTO dto = mser.entityToDTO(v); dto.setMemberId(v.getMemberId()); return dto;}).toList();
+        Page<Member> result = mrepo.findAll(pageable);
+        return result.stream().map(v -> {MemberDTO dto = mser.entityToDTO(v); dto.setTotalCount(result.getTotalElements()); dto.setMemberId(v.getMemberId()); return dto;}).toList();
     }
 
     @Override
     public List<ArticleReportDTO> adminArticleReportList(Pageable pageable) {
-        return arrepo.findAll(pageable)
+        Page<ArticleReport> result = arrepo.findAll(pageable);
+        return result
                 .stream()
                 .map(v -> ArticleReportDTO
                         .builder()
@@ -118,13 +125,16 @@ public class AdminServiceImp implements AdminService {
                         .articleReportTitle(v.getArticleReportTitle())
                         .articleReportContext(v.getArticleReportContext())
                         .articlereporterId(v.getArticlereporter().getMemberId())
-                        .articleId(v.getArticle().getArticleId()).build())
+                        .articleId(v.getArticle().getArticleId())
+                        .totalCount(result.getTotalElements())
+                        .build())
                 .toList();
     }
 
     @Override
     public List<MemberReportDTO> adminMemberReportList(Pageable pageable) {
-        return  mrrepo.findAll(pageable)
+        Page<MemberReport> result = mrrepo.findAll(pageable);
+        return  result
                 .stream()
                 .map(v-> MemberReportDTO
                         .builder()
@@ -133,6 +143,7 @@ public class AdminServiceImp implements AdminService {
                         .userReportContext(v.getUserReportContext())
                         .targetUserId(v.getReported().getMemberId())
                         .reporterUserId(v.getMemberreporter().getMemberId())
+                        .totalCount(result.getTotalElements())
                         .build())
                 .toList();
     }

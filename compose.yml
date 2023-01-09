@@ -17,7 +17,7 @@ services:
     ports:
       - 15151:15151
     environment:
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: 1234
       MYSQL_TCP_PORT: 15151
       TZ: Asia/Seoul
 
