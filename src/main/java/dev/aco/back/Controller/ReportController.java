@@ -19,8 +19,8 @@ public class ReportController {
     private final ReportService rser;
 
     @RequestMapping(value = "/member", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> memberReportRequest(@RequestBody MemberReportDTO dto){
-        return new ResponseEntity<Boolean>(rser.reportUser(dto), HttpStatus.OK);
+    public ResponseEntity<Integer> memberReportRequest(@RequestBody MemberReportDTO dto){
+        return new ResponseEntity<Integer>(rser.reportUser(dto), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/article", method = RequestMethod.POST)
