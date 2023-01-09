@@ -8,7 +8,7 @@ import dev.aco.back.Entity.Report.MemberReport;
 import dev.aco.back.Entity.User.Member;
 
 public interface ReportService {
-    Boolean reportUser(MemberReportDTO dto);
+    Integer reportUser(MemberReportDTO dto);
 
     Integer reportArticle(ArticleReportDTO dto);
 
