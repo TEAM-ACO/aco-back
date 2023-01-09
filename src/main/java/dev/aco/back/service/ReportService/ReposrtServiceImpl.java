@@ -28,13 +28,16 @@ public class ReposrtServiceImpl implements ReportService{
     }
 
     @Override
-    public Boolean reportUser(MemberReportDTO dto) {
+    public Integer reportUser(MemberReportDTO dto) {
+        if(mrrepo.existsByMemberreporterMemberIdAndReportedMemberId(dto.getReporterUserId(), dto.getTargetUserId())){
+            return -1;
+        }
         try {
             mrrepo.save(toEntityMember(dto));
-            return true;
+            return 1;
 
         } catch (Exception e) {
-            return false;
+            return 2;
         }
     }
 }
