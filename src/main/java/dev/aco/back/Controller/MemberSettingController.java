@@ -16,42 +16,36 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @RestController
 @RequestMapping("/setting")
 @RequiredArgsConstructor
-@Log4j2
 public class MemberSettingController {
   private final MemberSettingService service;
 
-  @RequestMapping(value = "/getmember", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/getmember", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<MemberDTO> getByMemberId(@RequestBody MemberVO member) {
     MemberDTO result = service.getByMemberId(member.getMemberId());
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/changepassword", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/changepassword", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Boolean> changePassword(@RequestBody ChangePasswordVO vo) {
-    log.info(vo);
     return new ResponseEntity<>(service.changePassword(vo), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/changenickname", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/changenickname", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Boolean> changeNickname(@RequestBody ChangeNicknameVO vo) {
-    log.info(vo);
     return new ResponseEntity<>(service.changeNickname(vo), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/changeuserimg", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Boolean> changeUserImg(@RequestBody ChangeUserImgVO vo) {
-    log.info(vo);
+  @PostMapping(value = "/changeuserimg", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<Boolean> changeUserImg(ChangeUserImgVO vo) {
     return new ResponseEntity<>(service.changeUserImg(vo), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/changefindpassword", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/changefindpassword", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Boolean> changeFindPassword(@RequestBody ChangeFindPasswordVO vo) {
-    log.info(vo);
     return new ResponseEntity<>(service.changeFindPassword(vo), HttpStatus.OK);
   }
 
