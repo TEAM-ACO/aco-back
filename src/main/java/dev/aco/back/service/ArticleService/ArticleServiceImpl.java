@@ -102,8 +102,9 @@ public class ArticleServiceImpl implements ArticleService {
 	@Transactional
 	public Long articleModify(ArticleDTO dto) {
 		Article article = arepo.findById(dto.getArticleId()).orElseThrow();
-
-		airepo.deleteAllById(article.getArticleImages().stream().map(v->v.getArticleImageId()).toList());
+		List<ArticleImage> delImg = article.getArticleImages().stream().filter(v->!dto.getArticleImagesNames().contains(v.getImg())).toList();
+		airepo.deleteAll(delImg);
+		
 		Optional.ofNullable(dto.getArticleImages()).ifPresentOrElse((images) -> {
 			images.forEach((image) -> {
 				String uploadedImgStr = imageManager.ImgUpload(image).toString();
