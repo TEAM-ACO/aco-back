@@ -1,5 +1,6 @@
 package dev.aco.back.service.ArticleService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -62,7 +63,6 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<ArticleDTO> readListByMenu(Pageable request, Integer menuId) {
 		return arepo.findAllByMenuEquals(request, Menu.values()[menuId]).stream().map(v->toDTO(v)).toList();
-		//    0: Diary, 1: Tip, 2:Question
 	}
 
 	// =========================================================================================================================================================
@@ -96,6 +96,59 @@ public class ArticleServiceImpl implements ArticleService {
 		phrases.forEach(v -> anrepo.save(ArticleNoun.builder().article(result).noun(v).build()));
 		return result.getArticleId();
 	}
+
+
+	@Override
+	@Transactional
+	public Long articleModify(ArticleDTO dto) {
+		Article article = arepo.findById(dto.getArticleId()).orElseThrow();
+		List<ArticleImage> delImg = article.getArticleImages().stream().filter(v->!dto.getArticleImagesNames().contains(v.getImg())).toList();
+		airepo.deleteAll(delImg);
+		
+		Optional.ofNullable(dto.getArticleImages()).ifPresentOrElse((images) -> {
+			images.forEach((image) -> {
+				String uploadedImgStr = imageManager.ImgUpload(image).toString();
+				airepo.save(ArticleImage.builder().article(article).img(uploadedImgStr).build());
+			});
+		}, () -> {
+			airepo.save(ArticleImage.builder().article(article)
+			.img("basic.png").build());
+		});
+
+		List<ArticleHashtag> deletedLink = article.getHashLinker().stream().filter(v->!dto.getTags().contains(v.getHashtag().getTag())).toList();
+		List<String> maintainedString = article.getHashLinker()
+														.stream().filter(v->dto.getTags().contains(v.getHashtag().getTag())).toList()
+														.stream().map(v->v.getHashtag().getTag()).toList();
+		List<ArticleHashtag> saveList = new ArrayList<>();
+
+		dto.getTags().forEach(v->{
+			if(!maintainedString.contains(v)){
+				Optional<Hashtag> tag = hrepo.findByTag(v);
+				tag.ifPresentOrElse(
+								tmp->saveList.add(ArticleHashtag.builder().article(article).hashtag(tmp).build()),
+								()->saveList.add(ArticleHashtag.builder().article(article).hashtag(hrepo.save(Hashtag.builder().tag(v).build())).build())
+								);
+			}
+		});
+		halrepo.saveAll(saveList);
+		halrepo.deleteAll(deletedLink);
+
+		anrepo.deleteAllById(article.getNouns().stream().map(v->v.getArticleNounId()).toList());
+		arepo.updateArticle(dto.getArticleContext().getBytes(), Menu.valueOf(dto.getMenu()), article.getArticleId());
+		return article.getArticleId();
+
+	}
+
+	@Override
+	public Boolean articleDelete(Long articleId) {
+		try {
+			arepo.deleteById(articleId);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 
 	private List<String> nounExtractor(String string) {
 		CharSequence normalized = OpenKoreanTextProcessorJava.normalize(string);

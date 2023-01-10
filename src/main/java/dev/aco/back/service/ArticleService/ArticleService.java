@@ -14,7 +14,8 @@ public interface ArticleService {
     List<ArticleDTO> readList(Pageable request);
     List<ArticleDTO> readListByMemberId(Pageable request, Long memberId);
     List<ArticleDTO> readListByKeywords(Pageable request, String keywords);
-
+    Long articleModify (ArticleDTO dto);
+    Boolean articleDelete (Long articleId);
     List<ArticleDTO> readListByMenu(Pageable request, Integer menuId);
     Long write(ArticleDTO dto);
 
