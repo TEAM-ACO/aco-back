@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Log4j2
 
@@ -25,13 +25,4 @@ public class LikeController {
         log.info(dto.getLikeId());
         return new ResponseEntity<Boolean>(service.likeUser(dto), HttpStatus.OK);
     }
-
-    // @RequestMapping(value = "/like", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, 
-    //     produces = MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<HashMap<String, Object>> register(@RequestBody Member memberId) {
-    //     HashMap<String, Object> result = service.getListArticleId(memberId.getMemberId());
-    //     log.info(memberId.getMemberId());
-    //     return new ResponseEntity<>(result, HttpStatus.OK);
-    // }
-    
 }
