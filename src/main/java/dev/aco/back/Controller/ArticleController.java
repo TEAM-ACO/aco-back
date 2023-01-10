@@ -62,6 +62,11 @@ public class ArticleController {
         return new ResponseEntity<>(aser.write(dto), HttpStatus.OK);
     }
 
+    @PostMapping(value = "modify", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Long> modify(ArticleDTO dto) {
+        return new ResponseEntity<>(aser.articleModify(dto), HttpStatus.OK);
+    }
+
     @PostMapping(value = "reply/write")
     public ResponseEntity<Boolean> writeReply(@RequestBody ReplyDTO dto){
         return new ResponseEntity<>(rser.writeReply(dto), HttpStatus.OK);
