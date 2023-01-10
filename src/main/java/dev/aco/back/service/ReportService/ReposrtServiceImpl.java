@@ -10,14 +10,15 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ReposrtServiceImpl implements ReportService{
+public class ReposrtServiceImpl implements ReportService {
     private final ArticleReportRepository arrepo;
     private final MemberReportRepository mrrepo;
+
     @Override
     public Integer reportArticle(ArticleReportDTO dto) {
-        if(arrepo.existsByArticleArticleIdAndArticlereporterMemberId(dto.getArticleId(), dto.getArticlereporterId())){
+        if (arrepo.existsByArticleArticleIdAndArticlereporterMemberId(dto.getArticleId(), dto.getArticlereporterId())) {
             return -1;
-        }else{
+        } else {
             try {
                 arrepo.save(toEntityArticle(dto));
                 return 1;
@@ -29,15 +30,16 @@ public class ReposrtServiceImpl implements ReportService{
 
     @Override
     public Integer reportUser(MemberReportDTO dto) {
-        if(mrrepo.existsByMemberreporterMemberIdAndReportedMemberId(dto.getReporterUserId(), dto.getTargetUserId())){
+        if (mrrepo.existsByMemberreporterMemberIdAndReportedMemberId(dto.getReporterUserId(), dto.getTargetUserId())) {
             return -1;
-        }
-        try {
-            mrrepo.save(toEntityMember(dto));
-            return 1;
+        } else {
+            try {
+                mrrepo.save(toEntityMember(dto));
+                return 1;
 
-        } catch (Exception e) {
-            return 2;
+            } catch (Exception e) {
+                return 2;
+            }
         }
     }
 }
