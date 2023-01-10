@@ -63,7 +63,6 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<ArticleDTO> readListByMenu(Pageable request, Integer menuId) {
 		return arepo.findAllByMenuEquals(request, Menu.values()[menuId]).stream().map(v->toDTO(v)).toList();
-		//    0: Diary, 1: Tip, 2:Question
 	}
 
 	// =========================================================================================================================================================
@@ -137,6 +136,16 @@ public class ArticleServiceImpl implements ArticleService {
 		arepo.updateArticle(dto.getArticleContext().getBytes(), Menu.valueOf(dto.getMenu()), article.getArticleId());
 		return article.getArticleId();
 
+	}
+
+	@Override
+	public Boolean articleDelete(Long articleId) {
+		try {
+			arepo.deleteById(articleId);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 

@@ -67,6 +67,11 @@ public class ArticleController {
         return new ResponseEntity<>(aser.articleModify(dto), HttpStatus.OK);
     }
 
+    @PostMapping(value = "delete")
+    public ResponseEntity<Long> delete(ArticleDTO dto) {
+        return new ResponseEntity<>(aser.articleModify(dto), HttpStatus.OK);
+    }
+
     @PostMapping(value = "reply/write")
     public ResponseEntity<Boolean> writeReply(@RequestBody ReplyDTO dto){
         return new ResponseEntity<>(rser.writeReply(dto), HttpStatus.OK);
