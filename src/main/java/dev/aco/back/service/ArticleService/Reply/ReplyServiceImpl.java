@@ -36,6 +36,15 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
+    public Boolean deleteReplyMemberIdArticleId(ReplyDTO dto) {
+        if(rrepo.existsByReplyIdAndMemberMemberIdAndArticleArticleId(dto.getReplyId(), dto.getMember().getMemberId(), dto.getArticle().getArticleId())){
+            rrepo.deleteById(dto.getReplyId());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public List<ReplyDTO> readReplyByArticleId(Long articleId, Pageable pageable) {
 		Page<Reply> result = rrepo.findAllByArticleArticleId(pageable, articleId);
             return result.getContent().stream().map(v->{
