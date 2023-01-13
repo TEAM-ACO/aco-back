@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/article")
 @RequiredArgsConstructor
 @Log4j2
 

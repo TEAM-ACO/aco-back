@@ -69,9 +69,8 @@ public class ArticleController {
     }
 
     @PostMapping(value = "delete")
-    public ResponseEntity<Long> delete(ArticleDTO dto) {
-        log.info(dto);
-        return new ResponseEntity<>(aser.articleModify(dto), HttpStatus.OK);
+    public ResponseEntity<Boolean> delete(@RequestBody ArticleDTO dto) {
+        return new ResponseEntity<>(aser.articleDelete(dto.getArticleId()), HttpStatus.OK);
     }
 
     @PostMapping(value = "reply/write")
