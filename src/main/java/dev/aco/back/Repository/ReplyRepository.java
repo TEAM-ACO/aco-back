@@ -10,4 +10,6 @@ import dev.aco.back.Entity.Article.Reply;
 public interface ReplyRepository extends JpaRepository<Reply, Long>{
     @EntityGraph(attributePaths = {"member"})
     Page<Reply> findAllByArticleArticleId(Pageable pageable, Long articleId);
+
+    boolean existsByReplyIdAndMemberMemberIdAndArticleArticleId(Long id, Long memberId, Long articleId);
 }

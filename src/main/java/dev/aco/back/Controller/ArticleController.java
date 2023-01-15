@@ -83,4 +83,9 @@ public class ArticleController {
         Pageable pageable = PageRequest.of(vo.getRequestedPageNumber(), vo.getRequestedPageSize());
         return new ResponseEntity<>(rser.readReplyByArticleId(article, pageable), HttpStatus.OK);
     }
+
+    @PostMapping(value = "reply/delete")
+    public ResponseEntity<Boolean> deleteReplyByArticleIdMemberId(@RequestBody ReplyDTO dto){
+        return new ResponseEntity<>(rser.deleteReplyMemberIdArticleId(dto), HttpStatus.OK);
+    }
 }

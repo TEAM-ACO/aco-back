@@ -8,5 +8,6 @@ import dev.aco.back.DTO.Article.ReplyDTO;
 
 public interface ReplyService {
     Boolean writeReply(ReplyDTO dto);
+    Boolean deleteReplyMemberIdArticleId(ReplyDTO dto);
     List<ReplyDTO> readReplyByArticleId(Long articleId, Pageable pageable);
 }
