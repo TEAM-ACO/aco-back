@@ -31,6 +31,17 @@ public class MemberServiceImpl implements MemberService {
   }
 
   @Override
+  @Transactional
+  public Boolean memberResign(MemberDTO dto) {
+      Member member = repo.findById(dto.getMemberId()).orElse(Member.builder().memberId(-1L).password("-1").build());
+      if(encoder.matches(dto.getPassword(), member.getPassword())){
+        repo.delete(member);
+        return true;
+      }
+      return false;
+  }
+
+  @Override
   public byte[] getImageByMemberId(Long memberId) {
     String imgName = repo.findById(memberId).orElse(Member.builder().userimg("basic.png").build()).getUserimg();
     return (byte[])imageManager.ImgRead(imgName).get(0);

@@ -21,7 +21,10 @@ public class MemberController {
 
     private final MemberService mser;
 
-
+    @PostMapping("/resign")
+    public ResponseEntity<Boolean> memberResign(@RequestBody MemberDTO dto){
+        return new ResponseEntity<Boolean>(mser.memberResign(dto), HttpStatus.OK);
+    }
 
 
 

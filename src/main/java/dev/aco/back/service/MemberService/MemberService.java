@@ -11,6 +11,7 @@ public interface MemberService {
   Boolean signUp(MemberDTO dto);
   Boolean emailChecking(MemberDTO dto);
   byte[] getImageByMemberId(Long memberId);
+  Boolean memberResign(MemberDTO dto);
 
   // Long findPassword(findPassword vo);
   // String changePassword(changePassword vo);
