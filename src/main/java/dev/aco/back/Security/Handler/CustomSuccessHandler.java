@@ -33,7 +33,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             Authentication authentication) throws IOException, ServletException {
         Member member = mrepo.findByEmail(authentication.getName()).get();
         log.info(member.getNickname());
-        List<String> tokenList = jwtManager.AccessRefreshGenerator(member.getMemberId(), member.getEmail());
+        List<String> tokenList = jwtManager.AccessRefreshGenerator(member.getMemberId(), member.getEmail(), member.getUserimg());
         redisManager.setRefreshToken(tokenList.get(1), member.getMemberId());
 
         // 요건 혹시 몰라서 살려둘게용

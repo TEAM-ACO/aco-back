@@ -1,5 +1,7 @@
 package dev.aco.back.service.MemberService;
 
+import java.util.HashMap;
+
 import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.Entity.User.Member;
 import dev.aco.back.VO.ChangeFindPasswordVO;
@@ -14,7 +16,7 @@ public interface MemberSettingService {
 
   Boolean changePassword(ChangePasswordVO vo);
 
-  Boolean changeNickname(ChangeNicknameVO vo);
+  HashMap<String,Object> changeNickname(ChangeNicknameVO vo);
 
   Boolean changeUserImg(ChangeUserImgVO vo);
 
