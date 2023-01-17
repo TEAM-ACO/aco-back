@@ -64,6 +64,7 @@ public class ArticleController {
 
     @PostMapping(value = "modify", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Long> modify(ArticleDTO dto) {
+        log.info(dto);
         return new ResponseEntity<>(aser.articleModify(dto), HttpStatus.OK);
     }
 

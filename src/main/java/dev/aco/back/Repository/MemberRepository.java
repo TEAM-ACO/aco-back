@@ -51,6 +51,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select userimg from Member m where m.memberId =:memberId")
     Optional<String> getUserImgByMemberId(Long memberId);
 
+    @Transactional
     @Modifying
     @Query("UPDATE Member mb set mb.userimg=:userimg where mb.memberId =:memberId")
     void updateUserImg(String userimg, Long memberId);
