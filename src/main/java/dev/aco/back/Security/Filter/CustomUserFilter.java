@@ -58,7 +58,7 @@ public class CustomUserFilter extends OncePerRequestFilter {
             }
 
             if (!atkBool){
-                List<String> tokenList = jwtManager.AccessRefreshGenerator(rtknMember.getMemberId(), rtknMember.getEmail());
+                List<String> tokenList = jwtManager.AccessRefreshGenerator(rtknMember.getMemberId(), rtknMember.getEmail(), rtknMember.getUserimg());
                 redisManager.setRefreshToken(tokenList.get(1), rtknMember.getMemberId());
 
                 if(rtknMember.getNickname().length()==0 || rtknMember.getPassword().length()==0){

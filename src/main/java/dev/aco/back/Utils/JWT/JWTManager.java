@@ -27,16 +27,16 @@ public class JWTManager {
     private String secretKey;
     private final long DAY = 259200000 / 3;
 
-    public List<String> AccessRefreshGenerator(Long memberId, String email){
+    public List<String> AccessRefreshGenerator(Long memberId, String email, String userimg){
         List<String> tokenAry = new ArrayList<>();
-        tokenAry.add(tokenGenerate(memberId, email, 1L));
-        tokenAry.add(tokenGenerate(memberId, email, 7L));
+        tokenAry.add(tokenGenerate(memberId, email, 1L, userimg));
+        tokenAry.add(tokenGenerate(memberId, email, 7L, userimg));
 
         return tokenAry;
 
     }
 
-    public String tokenGenerate(Long memberId, String email, Long expireRate) {
+    public String tokenGenerate(Long memberId, String email, Long expireRate, String userimg) {
         SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         Date today = new Date();
         String jwt = Jwts.builder()
@@ -45,6 +45,7 @@ public class JWTManager {
                 .setExpiration(new Date(today.getTime() + ((DAY / 24 / 6) * expireRate)))
                 .claim("email", email)
                 .claim("userNumber", memberId)
+                .claim("userimg", userimg)
                 .setSubject("bblog token")
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

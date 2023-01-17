@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import dev.aco.back.DTO.User.MemberDTO;
 import dev.aco.back.Entity.Enum.Roles;
+import dev.aco.back.Entity.User.Member;
 import dev.aco.back.Entity.User.emailAuth;
 import dev.aco.back.Repository.MailRepository;
 import dev.aco.back.Repository.MemberRepository;
+import dev.aco.back.Utils.Image.ImageManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -21,10 +23,17 @@ public class MemberServiceImpl implements MemberService {
   private final MemberRepository repo;
   private final PasswordEncoder encoder;
   private final MailRepository mrepo;
+  private final ImageManager imageManager;
 
   @Override
   public Boolean emailChecking(MemberDTO dto) {
     return repo.existsByEmail(dto.getEmail());
+  }
+
+  @Override
+  public byte[] getImageByMemberId(Long memberId) {
+    String imgName = repo.findById(memberId).orElse(Member.builder().userimg("basic.png").build()).getUserimg();
+    return (byte[])imageManager.ImgRead(imgName).get(0);
   }
 
   @Transactional
