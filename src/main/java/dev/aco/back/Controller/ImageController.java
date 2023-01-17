@@ -29,7 +29,7 @@ public class ImageController {
         return new ResponseEntity<>(file, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/user/{name}")
+    @GetMapping(value = "/user/{memberid}")
     public ResponseEntity<byte[]> imageReadByMemberId(@PathVariable("memberid") Long memberid) {
         return new ResponseEntity<>(mser.getImageByMemberId(memberid), HttpStatus.OK);
     }
