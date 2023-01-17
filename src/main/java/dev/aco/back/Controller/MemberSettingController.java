@@ -11,6 +11,9 @@ import dev.aco.back.VO.ChangePasswordVO;
 import dev.aco.back.VO.ChangeUserImgVO;
 import dev.aco.back.service.MemberService.MemberSettingService;
 
+import java.util.HashMap;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +39,12 @@ public class MemberSettingController {
 
   @PostMapping(value = "/changenickname", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Boolean> changeNickname(@RequestBody ChangeNicknameVO vo) {
-    return new ResponseEntity<>(service.changeNickname(vo), HttpStatus.OK);
+    HashMap<String, Object> result = service.changeNickname(vo);
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Set-Cookie", result.get("access").toString());
+    headers.add("Set-Cookie", result.get("refresh").toString());
+    headers.add("Set-Cookie", result.get("user").toString());
+    return new ResponseEntity<>((Boolean) result.get("result"), headers, HttpStatus.OK);
   }
 
   @PostMapping(value = "/changeuserimg", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
