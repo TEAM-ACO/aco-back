@@ -17,11 +17,8 @@ import dev.aco.back.Utils.JWT.JWTManager;
 import dev.aco.back.Utils.Redis.RedisManager;
 import dev.aco.back.VO.ChangeFindPasswordVO;
 import dev.aco.back.VO.ChangeNicknameVO;
-// import dev.aco.back.VO.MemberVO;
-// import dev.aco.back.VO.SetNicknameVO;
 import dev.aco.back.VO.ChangePasswordVO;
 import dev.aco.back.VO.ChangeUserImgVO;
-import jakarta.servlet.http.Cookie;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -78,18 +75,12 @@ public class MemberSettingServiceImpl implements MemberSettingService {
 
   @Override
   public Boolean changeUserImg(ChangeUserImgVO vo) {
-    Optional<String> oldImg = mrepo.getUserImgByMemberId(vo.getMemberId());
-    if (oldImg.isPresent()) {
-      mrepo.updateUserImg(vo.getUserimg(), vo.getMemberId());
-    } else {
-      imgManager.ImgUpload(vo.getFile());
-    }
+    mrepo.updateUserImg(imgManager.ImgUpload(vo.getFile()), vo.getMemberId());
     return true;
   }
 
   @Override
   public Boolean changeFindPassword(ChangeFindPasswordVO vo) {
-    // Optional<Member> result = mrepo.findByEmail(vo.getEmail());
     mrepo.changeFindPassbyEmail(vo.getEmail(), encoder.encode(vo.getUpassword()));
     return true;
   }
