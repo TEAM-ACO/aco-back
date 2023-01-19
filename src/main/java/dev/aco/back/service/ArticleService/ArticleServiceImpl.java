@@ -70,8 +70,6 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	@Transactional
 	public Long write(ArticleDTO dto) {
-		System.out.println(">><>>>>>>>>>>>>>>>>>>>>>....");
-		System.out.println(dto.getTags());
 		Optional<List<MultipartFile>> imgs = Optional.ofNullable(dto.getArticleImages());
 		Article article = dtoToEntity(dto);
 		List<String> phrases = nounExtractor(dto.getArticleContext());
@@ -105,16 +103,12 @@ public class ArticleServiceImpl implements ArticleService {
 	public Long articleModify(ArticleDTO dto) {
 		Article article = arepo.findById(dto.getArticleId()).orElseThrow();
 		List<ArticleImage> delImg = article.getArticleImages().stream().filter(v->!dto.getArticleImagesNames().contains(v.getImg())).toList();
-		airepo.deleteAll(delImg);
-		
-		Optional.ofNullable(dto.getArticleImages()).ifPresentOrElse((images) -> {
-			images.forEach((image) -> {
+		airepo.deleteAll(delImg);		
+		Optional.ofNullable(dto.getArticleImages()).ifPresent((images) -> {
+			airepo.saveAll( images.stream().map((image) -> {
 				String uploadedImgStr = imageManager.ImgUpload(image).toString();
-				airepo.save(ArticleImage.builder().article(article).img(uploadedImgStr).build());
-			});
-		}, () -> {
-			airepo.save(ArticleImage.builder().article(article)
-			.img("basic.png").build());
+				return ArticleImage.builder().article(article).img(uploadedImgStr).build();
+			}).toList());
 		});
 
 		List<ArticleHashtag> deletedLink = article.getHashLinker().stream().filter(v->!dto.getTags().contains(v.getHashtag().getTag())).toList();
@@ -137,6 +131,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 		anrepo.deleteAllById(article.getNouns().stream().map(v->v.getArticleNounId()).toList());
 		arepo.updateArticle(dto.getArticleContext().getBytes(), Menu.valueOf(dto.getMenu()), article.getArticleId());
+		if(airepo.imgCount(article.getArticleId())==0){
+			airepo.save(ArticleImage.builder().img("basic.png").article(article).build());
+		}
 		return article.getArticleId();
 
 	}
