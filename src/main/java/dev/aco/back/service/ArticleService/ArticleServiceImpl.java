@@ -70,12 +70,14 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	@Transactional
 	public Long write(ArticleDTO dto) {
+		System.out.println(">><>>>>>>>>>>>>>>>>>>>>>....");
+		System.out.println(dto.getTags());
 		Optional<List<MultipartFile>> imgs = Optional.ofNullable(dto.getArticleImages());
 		Article article = dtoToEntity(dto);
 		List<String> phrases = nounExtractor(dto.getArticleContext());
 		List<Hashtag> tags = dto.getTags()
 								.stream()
-								.map(v-> hrepo.findByTag(v).orElse(hrepo.save(Hashtag.builder().tag(v).build())))
+								.map(v-> hrepo.findByTag(v).orElseGet(()-> hrepo.save(Hashtag.builder().tag(v).build())))
 									.toList();
 									
 
