@@ -3,6 +3,7 @@ package dev.aco.back.service.ArticleService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,12 @@ import scala.collection.Seq;
 @Service
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
+
+	private final static String[] randomTip = {
+		"양치 후 양치물을 변기통에 뱉고 10분 후 물을 내리면 신기하게 악취가 사라집니다.",
+		"삶는 빨래는 삼베 주머니에 계란 껍질을 넣고 삶으면 눈 같이 하얗게 됩니다.",
+		"텀블러를 이용하여 일회용 용기의 사용을 낮춰봅시다!"
+	};
 	private final ArticleRepository arepo;
 	private final ArticleImageRepository airepo;
 	private final ArticleNounRepository anrepo;
@@ -159,6 +166,12 @@ public class ArticleServiceImpl implements ArticleService {
 		}else{
 			return List.of(string.split(" "));
 		}
+	}
+	
+	@Override
+	public String randomTip() {
+		Article tip = arepo.randomTip().orElseGet(()->Article.builder().articleContext(randomTip[new Random().nextInt(randomTip.length)].getBytes()).build());
+		return tip.updateArticleContextToString(tip.getArticleContext());
 	}
 
 }
