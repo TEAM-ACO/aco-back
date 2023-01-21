@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -87,5 +88,10 @@ public class ArticleController {
     @PostMapping(value = "reply/delete")
     public ResponseEntity<Boolean> deleteReplyByArticleIdMemberId(@RequestBody ReplyDTO dto){
         return new ResponseEntity<>(rser.deleteReplyMemberIdArticleId(dto), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "random")
+    public ResponseEntity<String> randomTip(){
+        return new ResponseEntity<>(aser.randomTip(), HttpStatus.OK);
     }
 }

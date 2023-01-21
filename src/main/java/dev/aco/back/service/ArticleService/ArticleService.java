@@ -18,7 +18,7 @@ public interface ArticleService {
     Boolean articleDelete (Long articleId);
     List<ArticleDTO> readListByMenu(Pageable request, Integer menuId);
     Long write(ArticleDTO dto);
-
+    String randomTip();
 
     default Article dtoToEntity(ArticleDTO dto) {
         Article entity = Article.builder()

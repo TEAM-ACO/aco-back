@@ -34,4 +34,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @EntityGraph(attributePaths = {"member", "hashLinker", "articleImages", "nouns", "hashLinker.hashtag"})
     Optional<Article> findById(Long id);
+
+    // 이러면 DB전체를 긁어서 매우매우 성능 문제가 생길 것 같지만.. 일단 조금 더 궁리하기
+    @Query("SELECT att FROM Article att where att.menu = 1 Order by RAND() limit 1")
+    Optional<Article> randomTip();
 }
