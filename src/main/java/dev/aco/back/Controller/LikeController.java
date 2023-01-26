@@ -19,8 +19,8 @@ public class LikeController {
     private final ArticleLikeService service;
 
     @PostMapping(value = "/like")
-    public ResponseEntity<Boolean> likeRequest(@RequestBody LikeDTO dto){
+    public ResponseEntity<Long> likeRequest(@RequestBody LikeDTO dto){
         log.info(dto.getLikeId());
-        return new ResponseEntity<Boolean>(service.likeUser(dto), HttpStatus.OK);
+        return new ResponseEntity<Long>(service.likeUser(dto), HttpStatus.OK);
     }
 }
