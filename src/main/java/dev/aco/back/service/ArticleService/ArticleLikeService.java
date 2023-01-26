@@ -8,7 +8,7 @@ import dev.aco.back.Entity.Article.ArticleLike;
 import dev.aco.back.Entity.User.Member;
 
 public interface ArticleLikeService {
-  Boolean likeUser(LikeDTO dto);
+  Long likeUser(LikeDTO dto);
 
   Boolean likeChecking(LikeDTO dto);
 

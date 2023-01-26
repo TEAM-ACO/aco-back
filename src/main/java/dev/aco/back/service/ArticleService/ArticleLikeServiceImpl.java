@@ -17,7 +17,7 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
     private final LikeRepository lrepo;
 
     @Override
-    public Boolean likeUser(LikeDTO dto) {
+    public Long likeUser(LikeDTO dto) {
         // 해피해피 findby를 이용해서 만들어봅시다
         // liker의memberId와 article의aritlceId기준으로 하나를 찾습니다
         // ifPresentOrElse >> 두 인자 값을 가집니다
@@ -28,9 +28,9 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
                 .ifPresentOrElse(v->lrepo.deleteById(v.getLikeId()), 
                                 ()->lrepo.save(dtoToEntity(dto))
                                 );    
-            return true;
+            return dto.getArticle();
         } catch (Exception e) {
-            return false;
+            return -1L;
         }
     }
 
