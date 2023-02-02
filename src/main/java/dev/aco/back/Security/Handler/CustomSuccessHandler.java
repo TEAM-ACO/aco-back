@@ -62,13 +62,13 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             +"%2C%22username%22:%22"+"PleaseInitYourInformation" +"%22}");
             noneinituser.setPath("/");
             response.addCookie(noneinituser);
-            response.sendRedirect("http://localhost:3075/initoauth");
+            response.sendRedirect("http://43.200.152.148:3075/initoauth");
         }else{
             Cookie user = new Cookie("user", "{%22id%22:%22" + member.getEmail() + "%22%2C%22num%22:" + member.getMemberId().toString()
             + "%2C%22username%22:%22" + URLEncoder.encode(member.getNickname(), "UTF-8") + "%22}");
             user.setPath("/");
             response.addCookie(user);
-            response.sendRedirect("http://localhost:3075/");
+            response.sendRedirect("http://43.200.152.148:3075/");
         }
         super.onAuthenticationSuccess(request, response, authentication);
     }
