@@ -33,8 +33,8 @@ echo -e "\e[1;34m--------------------------------------------------\e[0m"
 echo -e "\e[1;34m--------------------------------------------------\e[0m"
 
 
-echo -e "\e[1;32m3. Kill process if acoback is running \e[0m"
-PID=`ps -ef | grep acoback | grep -v grep | awk '{print $2}'`
+echo -e "\e[1;32m3. Kill process if back.jar is running \e[0m"
+PID=`ps -ef | grep back | grep -v grep | awk '{print $2}'`
 if [[ "" !=  "$PID" ]]; then
     kill -9 $PID
     echo -e "\e[1;32mProcess killed which id = $PID, move to next step\e[0m"
