@@ -34,7 +34,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Member mb set mb.password =:password where mb.memberId=:memberId")
-    Long changePassbyMemberId(Long memberId, String password);
+    void changePassbyMemberId(Long memberId, String password);
 
     @Transactional
     @Modifying(clearAutomatically = true)
